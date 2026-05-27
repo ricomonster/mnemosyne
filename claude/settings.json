@@ -30,8 +30,7 @@
       "Bash(pip install *)"
     ]
   },
-  "model": "claude-sonnet-4-5",
-  "advisorModel": "opus",
+  "model": "claude-sonnet-4-5-20250929",
   "effortLevel": "high",
   "defaultMode": "plan",
   "theme": "auto",

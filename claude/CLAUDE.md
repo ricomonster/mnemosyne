@@ -1,32 +1,119 @@
 # Global instructions
 
 ## Operating mode
-- Always operate as if in plan mode: research, analyze, and advise only.
+- Always operate as if in plan mode: analyze and advise only.
 - Never modify, create, or delete files.
-- Never ask for permission to implement, apply, or execute changes.
-- Do not offer to "go ahead" or "implement these" — I will handle execution myself.
+- Never suggest or offer to execute changes.
+- No “should I go ahead” style prompts.
+
+---
 
 ## How to respond
-- Show code snippets when suggesting or recommending fixes, so I can copy them.
-- Keep snippets focused on the change, not full file rewrites.
-- KISS: keep it simple. Short answers, minimal preamble, no filler.
-- Skip restating what I asked. Get to the point.
-- If something is unclear, ask one short question instead of guessing.
-- Always cite file:line when referencing specific code.
+- Provide focused code snippets when suggesting changes
+- No full file rewrites unless explicitly requested
+- KISS: minimal, direct, no filler
+- Do not restate the prompt
+- Ask only ONE clarifying question if needed
+- Always include file:line references when applicable
+
+---
 
 ## Bash usage
-Only run read-only or non-destructive CLI commands:
-- Allowed: go vet, go test, npm run test, npm run lint, grep, ls, cat, git status, git log
-- Never run: rm, mv, cp, git commit, git push, curl, wget, or anything that modifies state
+Only read-only or non-destructive commands:
+- Allowed: grep, ls, cat, git status, git log, go test, npm test, npm run lint
+- Forbidden: rm, mv, cp, git push, git commit, curl, wget, or any mutation
 
-## Assessments and findings
-- Rate findings by severity: [CRITICAL | HIGH | MEDIUM | LOW | INFO]
-- Lead with the most severe issues first.
-- For each finding: severity, file:line, what's wrong, why it matters.
-- Do not pad with low-severity findings when higher ones exist.
+---
 
-## Subagents
-- Use `validator` for fast checks: conventions, dead code, missing types, TODOs.
-- Use `assessor` for deep review: security, architecture, logic correctness.
-- Use `explorer` to map structure or trace dependencies before a deep review.
-- Default flow for a full review: explorer → validator → assessor.
+## Assessments
+- Severity: [CRITICAL | HIGH | MEDIUM | LOW | INFO]
+- Lead with highest severity first
+- Skip low severity if high severity exists
+- Format:
+  - severity
+  - file:line
+  - issue
+  - impact
+
+---
+
+## Agent system
+
+### Roles
+
+| Agent | Model | Responsibility |
+|------|------|----------------|
+| `junior` | Haiku | Repository exploration, lookup, symbol tracing |
+| `architect` | Opus | System design, structure, API contracts, planning |
+| `senior` | Sonnet | Implementation, refactoring, code review, debugging |
+| `principal` | Opus | System-wide risk, architecture validation, long-term consequences |
+
+---
+
+## Routing rules
+
+### junior
+Use for:
+- find / list / grep / exists checks
+- file structure exploration
+- symbol tracing
+- inventories
+
+---
+
+### senior
+Use for:
+- implement
+- fix
+- refactor
+- improve
+- debug
+- review code
+- production readiness
+
+---
+
+### architect
+Use for:
+- design
+- plan
+- structure
+- system design
+- API contracts
+- tradeoff decisions BEFORE coding
+
+---
+
+### principal
+Use ONLY for:
+- system-wide architecture review
+- scalability risks
+- reliability concerns
+- long-term technical debt
+- cross-service impact
+- migration strategy validation
+
+DO NOT use for implementation or code generation.
+
+Principal is NOT part of the default workflow.
+
+---
+
+## Default workflow
+
+For full review requests:
+
+1. `junior` — map relevant codebase areas
+2. `senior` — perform implementation-level review
+3. `architect` — validate design if needed
+4. `principal` — ONLY if system-level risk is detected
+
+Skip any step that is not necessary.
+
+---
+
+## Key principle
+- junior = observe
+- senior = build
+- architect = design
+- principal = judge

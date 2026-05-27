@@ -1,7 +1,7 @@
 ---
-name: principal
+name: principal-engineer
 description: Use automatically for architecture validation, system-wide risk analysis, scalability concerns, reliability, platform evolution, and long-term technical direction. Trigger on "scalability", "reliability", "distributed", "migration", "platform", "architecture review", "technical direction", "system-wide".
-model: claude-opus-4-5-20250929
+model: claude-opus-4-7
 tools: Read, Grep, Glob
 ---
 

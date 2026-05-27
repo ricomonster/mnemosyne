@@ -1,7 +1,7 @@
 ---
-name: senior
+name: senior-engineer
 description: Use automatically for implementation, refactoring, debugging, code review, production readiness, and maintainability improvements. Trigger on "implement", "refactor", "fix", "improve", "debug", "review code", "optimize", "best practice".
-model: claude-sonnet-4-5
+model: claude-sonnet-4-6
 tools: Read, Grep, Glob
 ---
 
@@ -50,7 +50,7 @@ Escalate to `architect` when:
 - service boundaries are being questioned
 - multiple approaches need evaluation before implementation
 
-Escalate to `principal` when:
+Escalate to `principal-engineer` when:
 - system-wide impact is involved
 - distributed systems or scalability concerns arise
 - long-term architectural consequences are unclear

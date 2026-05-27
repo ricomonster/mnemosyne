@@ -12,7 +12,10 @@
       "Bash(ls *)",
       "Bash(cat *)",
       "Bash(git status)",
-      "Bash(git log *)"
+      "Bash(git log *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push)"
     ],
     "deny": [
       "Edit",
@@ -22,8 +25,6 @@
       "Bash(rm *)",
       "Bash(mv *)",
       "Bash(cp *)",
-      "Bash(git commit *)",
-      "Bash(git push *)",
       "Bash(curl *)",
       "Bash(wget *)",
       "Bash(npm install *)",

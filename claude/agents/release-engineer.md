@@ -62,9 +62,13 @@ Only push when the user says "push", "push it", "ship it", "push to remote", or 
 - No period at end of subject
 - Scope = the module, package, or area affected (e.g. `auth`, `api`, `db`)
 - If multiple unrelated changes exist, flag it and ask the user if they want to split into separate commits
+- **Never add `Co-Authored-By: Claude` attribution** — commits should reflect user authorship only
 
 ## Output style
 - Always show `git status` output before doing anything
 - Always show the generated commit message before committing
 - Never commit silently
 - If something looks wrong (dirty state, unrelated changes mixed), flag it first
+
+ ## Attribution
+Never append `Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>` or any similar attribution to commit messages. All commits should be authored by the user only.

@@ -1,27 +1,38 @@
 # mnemosyne
 
-A Claude Code project configuration that enforces a structured, agent-based workflow with a strict analysis-only operating mode.
+Mnemosyne is a set of configuration files for [Claude Code](https://docs.anthropic.com/claude-code) and [OpenCode](https://opencode.ai) that enforces a structured, agent-based workflow.
 
 ## What it is
 
-Mnemosyne is a `.claude/` configuration layer that gives Claude Code a defined set of roles, boundaries, and escalation rules. Instead of Claude acting as a generalist assistant, it routes tasks to specialized agents — each with a fixed model, a narrow scope, and explicit limits on what it can do.
+Mnemosyne provides configuration layers for both Claude Code (`.claude/`) and OpenCode (`.opencode/` or `~/.config/opencode/`) that define a set of roles, boundaries, and escalation rules. Instead of the assistant acting as a generalist, it routes tasks to specialized agents — each with a fixed model, a narrow scope, and explicit limits on what it can do.
 
-The default mode is **read-only analysis**: Claude researches, reasons, and advises. All execution (file changes, git operations) is performed explicitly by the user or triggered through the release-engineer agent.
+The default mode is **read-only analysis**: the assistant researches, reasons, and advises. All execution (file changes, git operations) is performed explicitly by the user or triggered through the release-engineer agent.
 
 ---
 
 ## Structure
 
-```
-claude/
-  ├── CLAUDE.md              # Global instructions: operating mode, principles, agent routing
-  └── agents/
-  ├── junior-engineer.md
-  ├── senior-engineer.md
-  ├── architect.md
-  ├── principal-engineer.md
-  └── release-engineer.md
-```
+.
+├── claude/                     # Claude Code configuration
+│   ├── CLAUDE.md               # Global instructions, agent routing, workflows
+│   ├── settings.json           # Permission rules, default model, themes
+│   └── agents/
+│       ├── junior-engineer.md
+│       ├── senior-engineer.md
+│       ├── architect.md
+│       ├── principal-engineer.md
+│       └── release-engineer.md
+├── opencode/                   # OpenCode configuration
+│   ├── opencode.jsonc          # Agent definitions, permissions, model assignments
+│   ├── AGENTS.md               # Global instructions for OpenCode
+│   └── agents/
+│       ├── junior-engineer.md
+│       ├── senior-engineer.md
+│       ├── architect.md
+│       ├── principal-engineer.md
+│       └── release-engineer.md
+├── LICENSE                     # MIT License
+└── README.md
 
 ---
 
@@ -36,13 +47,25 @@ claude/
 
 ## Agents
 
+### Claude Code
+
 | Agent | Model | Role |
 |---|---|---|
-| `junior-engineer` | Haiku | Repository exploration: find, list, grep, trace symbols |
-| `senior-engineer` | Sonnet | Implementation, debugging, refactoring, code review |
-| `architect` | Opus | System design, API contracts, tradeoff analysis, pre-implementation planning |
-| `principal-engineer` | Opus | System-wide risk, scalability, long-term architectural validation |
-| `release-engineer` | Sonnet | Git operations: stage, commit, push — with safety checks |
+| `junior-engineer` | `claude-haiku-4-5-20251001` | Repository exploration: find, list, grep, trace symbols |
+| `senior-engineer` | `claude-sonnet-4-6` | Implementation, debugging, refactoring, code review |
+| `architect` | `claude-opus-4-7` | System design, API contracts, tradeoff analysis, pre-implementation planning |
+| `principal-engineer` | `claude-opus-4-7` | System-wide risk, scalability, long-term architectural validation |
+| `release-engineer` | `claude-sonnet-4-6` | Git operations: stage, commit, push — with safety checks |
+
+### OpenCode
+
+| Agent | Model | Role |
+|---|---|---|
+| `junior-engineer` | `opencode/qwen3.6-plus` | Read-only repository exploration |
+| `senior-engineer` | `opencode/qwen3.6-plus` | Implementation, debugging, refactoring (has edit permission) |
+| `architect` | `opencode/kimi-k2.6` | System design and planning (read-only) |
+| `principal-engineer` | `opencode/glm-5.1` | System-wide risk analysis (read-only) |
+| `release-engineer` | `opencode/qwen3.6-plus` | Git operations with safety checks (read-only except git) |
 
 ### Boundaries
 
@@ -52,8 +75,7 @@ claude/
 
 **architect** — designs before code is written. Does not write production code or debug.
 
-**principal-engineer** — evaluates risk at the system level. Not part of the default workflow. Only invoked when genuine system-wide concerns are
-  present.
+**principal-engineer** — evaluates risk at the system level. Not part of the default workflow. Only invoked when genuine system-wide concerns are present.
 
 **release-engineer** — git operations only. Requires explicit user confirmation before commit and push. Never runs destructive commands.
 
@@ -87,9 +109,12 @@ Triggered by: `commit`, `push`, `ship`, `release`, `stage`
 ### Prerequisites
 
 - [Claude Code](https://docs.anthropic.com/claude-code) installed
+- [OpenCode](https://opencode.ai) installed
 - Claude Max or API access with model permissions for Haiku, Sonnet, and Opus
 
 ### Installation
+
+#### Claude Code
 
 Copy the contents into `~/.claude/`:
 
@@ -102,23 +127,41 @@ cp claude/agents/* ~/.claude/agents/
 
 Claude Code loads `.claude/CLAUDE.md` and `.claude/settings.json` automatically when present.
 
-### What gets installed
+#### OpenCode
 
-- **CLAUDE.md**: Operating mode, agent routing rules, and workflow definitions
-- **settings.json**: Permission rules (deny `Edit`/`Write`, allow read-only operations)
-- **agents/**: Individual agent definition files with model assignments
+Copy the contents into `~/.config/opencode/`:
+
+```sh
+mkdir -p ~/.config/opencode/agents
+cp opencode/opencode.jsonc ~/.config/opencode/opencode.jsonc
+cp opencode/AGENTS.md ~/.config/opencode/AGENTS.md
+cp opencode/agents/* ~/.config/opencode/agents/
+```
+
+OpenCode loads `~/.config/opencode/opencode.jsonc` automatically when present.
+
+### What gets installed
+- CLAUDE.md / AGENTS.md: Operating mode, agent routing rules, and workflow definitions
+- settings.json / opencode.jsonc: Permission rules, model assignments, agent definitions
+- agents/: Individual agent definition files with role-specific boundaries
 
 ### Verify
 
+#### Claude Code
 Open Claude Code in any project and confirm:
-
 1. Analysis-only mode is active (file edit operations require explicit approval)
 2. Agent list appears with `/agents` command
-
 You should see `junior-engineer`, `senior-engineer`, `architect`, `principal-engineer`, and `release-engineer`.
+
+#### OpenCode
+Run opencode in any project and confirm:
+1. The default agent is `plan` (analysis mode)
+2. Subagents are available and correctly scoped
 
 ---
 
 ## Why "mnemosyne"
+Mnemosyne is the Greek goddess of memory and the mother of the Muses. The name reflects the intent: a persistent configuration that shapes how each assistant recalls its role and routes work — consistently, across every session.
 
-Mnemosyne is the Greek goddess of memory and the mother of the Muses. The name reflects the intent: a persistent configuration that shapes how Claude recalls its role and routes work — consistently, across every session.
+## License
+MIT

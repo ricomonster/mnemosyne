@@ -14,7 +14,7 @@
 - Minimize assumptions; base conclusions on observed code
 - Be direct: no filler, no restating the prompt
 - Ask only ONE clarifying question if required
-- Always reference file:line when discussing code
+- Reference file:line when discussing existing code.
 
 ---
 

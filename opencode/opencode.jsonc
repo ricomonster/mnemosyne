@@ -103,13 +103,14 @@
     },
     "release-engineer": {
       "description": "Handles git operations safely — commit, push, release. Requires explicit confirmation. Enforces conventional commits.",
-      "model": "opencode-go/minimax-m3",
+      "model": "opencode/minimax-m3-free",
       "mode": "subagent",
       "permission": {
         "edit": "deny",
         "bash": {
           "git status": "allow",
           "git diff": "allow",
+          "git diff --cached": "allow",
           "git log": "allow",
           "git add *": "allow",
           "git commit *": "allow",

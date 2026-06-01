@@ -63,7 +63,7 @@ The default mode is **read-only analysis**: the assistant researches, reasons, a
 | Agent | Model | Role |
 |---|---|---|
 | `junior-engineer` | `opencode-go/deepseek-v4-flash` | Read-only repository exploration |
-| `senior-engineer` | `opencode-go/minimax-m3` | Implementation, debugging, refactoring (has edit permission) |
+| `senior-engineer` | `opencode-go/minimax-m3-free` | Implementation, debugging, refactoring (has edit permission) |
 | `architect` | `opencode/deepseek-v4-pro` | System design and planning (read-only) |
 | `principal-engineer` | `opencode/kimi-k2.6` | System-wide risk analysis (read-only) |
 | `release-engineer` | `opencode/minimax-m3` | Git operations with safety checks (read-only except git) |

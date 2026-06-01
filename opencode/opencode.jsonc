@@ -1,0 +1,70 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    "AGENTS.md"
+  ],
+  "default_agent": "plan",
+  "permission": {
+    "edit": "deny",
+    "bash": {
+      "git *": "allow",
+      "npm *": "allow",
+      "*": "ask"
+    }
+  },
+  "agent": {
+    "senior-engineer": {
+      "description": "Implementation, refactoring, debugging, code review, production fixes.",
+      "mode": "subagent",
+      "model": "opencode/qwen3.6-plus",
+      "permission": {
+        "edit": "allow"
+      }
+    },
+    "architect": {
+      "description": "System design, service boundaries, API contracts, data flow, tradeoff analysis BEFORE coding.",
+      "mode": "subagent",
+      "model": "opencode/kimi-k2.6",
+      "permission": {
+        "edit": "deny"
+      }
+    },
+    "principal-engineer": {
+      "description": "System-wide architectural risk, scalability, reliability, long-term tech debt, cross-system coupling. NOT for routine work.",
+      "mode": "subagent",
+      "model": "opencode/glm-5.1",
+      "permission": {
+        "edit": "deny"
+      }
+    },
+    "release-engineer": {
+      "description": "Handles git operations safely — commit, push, release. Requires explicit confirmation. Enforces conventional commits.",
+      "mode": "subagent",
+      "model": "opencode/qwen3.6-plus",
+      "permission": {
+        "edit": "deny",
+        "bash": {
+          "git *": "allow",
+          "*": "ask"
+        }
+      }
+    },
+    "junior-engineer": {
+      "description": "Fast repository exploration: find files, trace usages, list symbols, count occurrences, summarize isolated code.",
+      "mode": "subagent",
+      "model": "opencode/qwen3.6-plus",
+      "permission": {
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "edit": "deny",
+        "bash": "deny",
+        "task": "deny",
+        "webfetch": "deny",
+        "websearch": "deny",
+        "question": "deny",
+        "todowrite": "deny"
+      }
+    }
+  }
+}

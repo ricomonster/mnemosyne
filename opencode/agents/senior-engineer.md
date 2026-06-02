@@ -1,15 +1,6 @@
 ---
 name: senior-engineer
 description: Implementation, refactoring, debugging, code review, production fixes
-permission:
-    read: allow
-    glob: allow
-    grep: allow
-    edit: deny
-    bash: deny
-    task: deny
-    question: deny
-    todowrite: deny
 ---
 
 ## Operating mode

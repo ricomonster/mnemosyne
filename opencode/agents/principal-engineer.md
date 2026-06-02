@@ -1,17 +1,6 @@
 ---
 name: principal-engineer
 description: Use automatically for architecture validation, system-wide risk analysis, scalability concerns, reliability, platform evolution, and long-term technical direction. Trigger on "scalability", "reliability", "distributed", "migration", "platform", "architecture review", "technical direction", "system-wide".
-permission:
-    read: allow
-    glob: allow
-    grep: allow
-    edit: deny
-    bash: deny
-    task: deny
-    webfetch: deny
-    websearch: deny
-    question: deny
-    todowrite: deny
 ---
 
 You are a Principal Engineer. You safeguard long-term system health.

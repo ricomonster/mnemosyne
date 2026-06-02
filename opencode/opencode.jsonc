@@ -1,125 +1,166 @@
 {
   "$schema": "https://opencode.ai/config.json",
+
   "instructions": [
-    "AGENTS.md"
+    "AGENTS.md",
+    "agents/architect.md",
+    "agents/junior-engineer.md",
+    "agents/principal-engineer.md",
+    "agents/release-engineer.md",
+    "agents/senior-engineer.md"
   ],
-  "default_agent": "plan",
+
+  "default_agent": "senior-engineer",
+
   "permission": {
     "edit": "deny",
+
     "bash": {
       "git status": "allow",
       "git diff": "allow",
       "git log": "allow",
       "git grep": "allow",
+
       "grep *": "allow",
       "ls *": "allow",
       "cat *": "allow",
+
       "npm run test *": "allow",
       "npm run lint *": "allow",
       "npm run typecheck *": "allow",
       "go test *": "allow",
+
       "git commit *": "deny",
       "git push *": "deny",
       "rm *": "deny",
       "curl *": "deny",
       "wget *": "deny",
+
       "*": "deny"
     }
   },
+
   "agent": {
+
     "architect": {
       "description": "System design, service boundaries, API contracts, data flow, tradeoff analysis BEFORE coding.",
       "model": "opencode-go/deepseek-v4-pro",
-      "mode": "primary",
+      "mode": "subagent",
       "permission": {
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+
         "edit": "deny",
         "bash": "deny",
-        "task": "allow",
+        "task": "deny",
         "webfetch": "deny",
         "websearch": "deny",
         "question": "deny",
         "todowrite": "deny"
       }
     },
+
     "principal-engineer": {
-      "description": "System-wide architectural risk, scalability, reliability, long-term tech debt, cross-system coupling. NOT for routine work.",
+      "description": "System-wide architectural risk, scalability, reliability, long-term tech debt, cross-system coupling.",
       "model": "opencode-go/kimi-k2.6",
-      "mode": "primary",
+      "mode": "subagent",
       "permission": {
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+
         "edit": "deny",
         "bash": "deny",
-        "task": "allow",
+        "task": "deny",
         "webfetch": "deny",
         "websearch": "deny",
         "question": "deny",
         "todowrite": "deny"
       }
     },
+
     "senior-engineer": {
       "model": "opencode-go/kimi-k2.6",
-      "description": "Implementation guidance, refactoring advice, debugging analysis, code review, production fixes",
+      "description": "Implementation guidance, debugging, code review, orchestration of subagents.",
       "mode": "primary",
+
       "permission": {
         "edit": "deny",
+
         "bash": {
-          "git push *": "deny",
+          "git status": "allow",
+          "git diff": "allow",
+          "git log": "allow",
+          "git grep": "allow",
+
+          "grep *": "allow",
+          "ls *": "allow",
+          "cat *": "allow",
+
+          "npm run test *": "allow",
+          "npm run lint *": "allow",
+          "npm run typecheck *": "allow",
+          "go test *": "allow",
+
           "git commit *": "deny",
+          "git push *": "deny",
           "git add *": "deny",
           "rm *": "deny",
           "mv *": "deny",
           "cp *": "deny",
           "curl *": "deny",
           "wget *": "deny",
+
           "*": "deny"
         },
+
         "task": "allow",
         "question": "deny",
         "todowrite": "deny"
       }
     },
+
     "junior-engineer": {
-      "description": "Fast repository exploration: find files, trace usages, list symbols, count occurrences, summarize isolated code.",
+      "description": "Fast repo exploration: find files, trace usage, symbol lookup.",
       "model": "opencode-go/deepseek-v4-flash",
-      "mode": "primary",
+      "mode": "subagent",
+
       "permission": {
         "read": "allow",
         "glob": "allow",
         "grep": "allow",
+
         "bash": {
           "git status": "allow",
           "git diff": "allow",
           "git log": "allow",
           "git grep": "allow",
           "ls *": "allow",
+
           "*": "deny"
         },
+
         "edit": "deny",
-        "task": "allow",
+        "task": "deny",
         "webfetch": "deny",
         "websearch": "deny",
         "question": "deny",
         "todowrite": "deny"
       }
     },
+
     "release-engineer": {
-      "description": "Handles git operations safely — commit, push, release. Requires explicit confirmation. Enforces conventional commits.",
+      "description": "Git execution agent (commit, branch, push). Requires explicit confirmation.",
       "model": "opencode/minimax-m3-free",
-      "mode": "primary",
+      "mode": "subagent",
+
       "permission": {
         "edit": "deny",
-        "bash": {
-          "git status": "allow",
-          "git diff": "allow",
-          "git diff --cached": "allow",
-          "git log": "allow",
-          "git add *": "allow",
-          "git commit *": "allow",
-          "git push *": "ask",
-          "*": "deny"
-        },
+        "bash": "allow",
         "task": "deny",
-        "question": "deny",
-        "todowrite": "deny"
+        "todowrite": "deny",
+        "question": "allow"
       }
     }
   }

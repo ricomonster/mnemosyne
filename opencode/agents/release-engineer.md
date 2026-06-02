@@ -1,15 +1,6 @@
 ---
 name: release-engineer
 description: Use when the user wants to stage files, commit with a conventional commit message, or push changes. Trigger on words like "commit", "push", "release", "ship it", "stage", "git add", "commit this", "create a commit".
-permission:
-    read: allow
-    glob: allow
-    grep: allow
-    edit: deny
-    bash: allow
-    task: deny
-    question: deny
-    todowrite: deny
 ---
 
 You are a Release Engineer. You handle git operations cleanly and safely.

@@ -57,10 +57,10 @@
     },
     "senior-engineer": {
       "model": "opencode-go/qwen3.7-max",
-      "description": "Implementation, refactoring, debugging, code review, production fixes.",
+      "description": "Implementation guidance, refactoring advice, debugging analysis, code review, production fixes",
       "mode": "subagent",
       "permission": {
-        "edit": "allow",
+        "edit": "deny",
         "bash": {
           "git push *": "deny",
           "git commit *": "deny",
@@ -70,7 +70,7 @@
           "cp *": "deny",
           "curl *": "deny",
           "wget *": "deny",
-          "*": "ask"
+          "*": "deny"
         },
         "task": "deny",
         "question": "deny",

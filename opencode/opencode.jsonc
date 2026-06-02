@@ -23,18 +23,18 @@
       "rm *": "deny",
       "curl *": "deny",
       "wget *": "deny",
-      "*": "ask"
+      "*": "deny"
     }
   },
   "agent": {
     "architect": {
       "description": "System design, service boundaries, API contracts, data flow, tradeoff analysis BEFORE coding.",
       "model": "opencode-go/deepseek-v4-pro",
-      "mode": "subagent",
+      "mode": "primary",
       "permission": {
         "edit": "deny",
         "bash": "deny",
-        "task": "deny",
+        "task": "allow",
         "webfetch": "deny",
         "websearch": "deny",
         "question": "deny",
@@ -44,11 +44,11 @@
     "principal-engineer": {
       "description": "System-wide architectural risk, scalability, reliability, long-term tech debt, cross-system coupling. NOT for routine work.",
       "model": "opencode-go/kimi-k2.6",
-      "mode": "subagent",
+      "mode": "primary",
       "permission": {
         "edit": "deny",
         "bash": "deny",
-        "task": "deny",
+        "task": "allow",
         "webfetch": "deny",
         "websearch": "deny",
         "question": "deny",
@@ -56,9 +56,9 @@
       }
     },
     "senior-engineer": {
-      "model": "opencode-go/qwen3.7-max",
+      "model": "opencode-go/kimi-k2.6",
       "description": "Implementation guidance, refactoring advice, debugging analysis, code review, production fixes",
-      "mode": "subagent",
+      "mode": "primary",
       "permission": {
         "edit": "deny",
         "bash": {
@@ -72,7 +72,7 @@
           "wget *": "deny",
           "*": "deny"
         },
-        "task": "deny",
+        "task": "allow",
         "question": "deny",
         "todowrite": "deny"
       }
@@ -80,7 +80,7 @@
     "junior-engineer": {
       "description": "Fast repository exploration: find files, trace usages, list symbols, count occurrences, summarize isolated code.",
       "model": "opencode-go/deepseek-v4-flash",
-      "mode": "subagent",
+      "mode": "primary",
       "permission": {
         "read": "allow",
         "glob": "allow",
@@ -94,7 +94,7 @@
           "*": "deny"
         },
         "edit": "deny",
-        "task": "deny",
+        "task": "allow",
         "webfetch": "deny",
         "websearch": "deny",
         "question": "deny",
@@ -104,7 +104,7 @@
     "release-engineer": {
       "description": "Handles git operations safely — commit, push, release. Requires explicit confirmation. Enforces conventional commits.",
       "model": "opencode/minimax-m3-free",
-      "mode": "subagent",
+      "mode": "primary",
       "permission": {
         "edit": "deny",
         "bash": {

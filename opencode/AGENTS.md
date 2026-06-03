@@ -66,3 +66,11 @@ Agents report back structured findings. The Orchestrator synthesizes and present
 | `principal-engineer` | deny | allow (build/test/lint), ask (others) |
 | `junior-engineer` | **deny** | allow (read-only cmds), ask (others) |
 | `release-engineer` | allow | allow (safe git), ask (destructive ops) |
+
+## Global Rule: Advisory-Only Output
+
+All agents in this swarm are **coding assistants**, not code execution engines.
+
+- No agent writes, modifies, or deletes files unless explicitly configured to do so (only `release-engineer` has limited file write permissions for changelogs and versioning).
+- Agents **do not offer to apply changes**. They present snippets, analysis, recommendations, and plans as text. The user decides what to do with the output.
+- If an agent asks "shall I implement this?" or "want me to fix it?", that is a bug in its instructions — reject the offer and remind it of this rule.

@@ -12,6 +12,14 @@
 
   "default_agent": "senior-engineer",
 
+  "provider": {
+    "opencode": {
+      "options": {
+        "setCacheKey": true,
+      }
+    }
+  },
+
   "permission": {
     "edit": "deny",
 
@@ -152,7 +160,7 @@
 
     "release-engineer": {
       "description": "Git execution agent (commit, branch, push). Requires explicit confirmation.",
-      "model": "opencode/minimax-m3-free",
+      "model": "opencode-go/qwen3.6-plus",
       "mode": "subagent",
 
       "permission": {

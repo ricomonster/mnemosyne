@@ -1,16 +1,15 @@
 {
   "$schema": "https://opencode.ai/config.json",
-
+  "autoupdate": true,
   "instructions": [
     "AGENTS.md",
     "agents/architect.md",
     "agents/junior-engineer.md",
     "agents/principal-engineer.md",
     "agents/release-engineer.md",
-    "agents/senior-engineer.md"
-  ],
-
-  "default_agent": "senior-engineer",
+    "agents/orchestrator.md"
+  ], 
+  "default_agent": "orchestrator",
 
   "provider": {
     "opencode": {
@@ -19,156 +18,121 @@
       }
     }
   },
-
-  "permission": {
-    "edit": "deny",
-
-    "bash": {
-      "git status": "allow",
-      "git diff": "allow",
-      "git log": "allow",
-      "git grep": "allow",
-
-      "grep *": "allow",
-      "ls *": "allow",
-      "cat *": "allow",
-
-      "npm run test *": "allow",
-      "npm run lint *": "allow",
-      "npm run typecheck *": "allow",
-      "go test *": "allow",
-
-      "git commit *": "deny",
-      "git push *": "deny",
-      "rm *": "deny",
-      "curl *": "deny",
-      "wget *": "deny",
-
-      "*": "deny"
-    }
-  },
-
   "agent": {
-
-    "architect": {
-      "description": "System design, service boundaries, API contracts, data flow, tradeoff analysis BEFORE coding.",
-      "model": "opencode-go/deepseek-v4-pro",
-      "mode": "subagent",
-      "permission": {
-        "read": "allow",
-        "glob": "allow",
-        "grep": "allow",
-
-        "edit": "deny",
-        "bash": "deny",
-        "task": "deny",
-        "webfetch": "deny",
-        "websearch": "deny",
-        "question": "deny",
-        "todowrite": "deny"
-      }
-    },
-
-    "principal-engineer": {
-      "description": "System-wide architectural risk, scalability, reliability, long-term tech debt, cross-system coupling.",
-      "model": "opencode-go/kimi-k2.6",
-      "mode": "subagent",
-      "permission": {
-        "read": "allow",
-        "glob": "allow",
-        "grep": "allow",
-
-        "edit": "deny",
-        "bash": "deny",
-        "task": "deny",
-        "webfetch": "deny",
-        "websearch": "deny",
-        "question": "deny",
-        "todowrite": "deny"
-      }
-    },
-
-    "senior-engineer": {
-      "model": "opencode-go/kimi-k2.6",
-      "description": "Implementation guidance, debugging, code review, orchestration of subagents.",
+    "orchestrator": {
       "mode": "primary",
-
+      "description": "Central coordinator. Plans, delegates to specialist subagents, and synthesizes results.",
+      "model": "opencode-go/kimi-k2.6",
+      "maxSteps": 80,
+      "temperature": 0.3,
       "permission": {
-        "edit": "deny",
-
         "bash": {
-          "git status": "allow",
-          "git diff": "allow",
-          "git log": "allow",
-          "git grep": "allow",
-
-          "grep *": "allow",
-          "ls *": "allow",
-          "cat *": "allow",
-
-          "npm run test *": "allow",
-          "npm run lint *": "allow",
-          "npm run typecheck *": "allow",
-          "go test *": "allow",
-
-          "git commit *": "deny",
-          "git push *": "deny",
-          "git add *": "deny",
-          "rm *": "deny",
-          "mv *": "deny",
-          "cp *": "deny",
-          "curl *": "deny",
-          "wget *": "deny",
-
-          "*": "deny"
+          "*": "ask"
         },
-
-        "task": "allow",
-        "question": "deny",
-        "todowrite": "deny"
+        "file": {
+          "write": "deny",
+          "read": "allow"
+        }
       }
     },
-
+    "architect": {
+      "mode": "subagent",
+      "description": "Infrastructure and system design advisor. Snippets and recommendations only.",
+      "model": "opencode-go/glm-5.1",
+      "maxSteps": 50,
+      "temperature": 0.4,
+      "permission": {
+        "bash": {
+          "*": "ask"
+        },
+        "file": {
+          "write": "deny",
+          "read": "allow"
+        }
+      }
+    },
+    "principal-engineer": {
+      "mode": "subagent",
+      "description": "Senior coding advisor. Code snippets, review feedback, and standards guidance only.",
+      "model": "opencode-go/deepseek-v4-pro",
+      "maxSteps": 60,
+      "temperature": 0.2,
+      "permission": {
+        "bash": {
+          "*lint*": "allow",
+          "*test*": "allow",
+          "*": "ask"
+        },
+        "file": {
+          "write": "deny",
+          "read": "allow"
+        }
+      }
+    },
     "junior-engineer": {
-      "description": "Fast repo exploration: find files, trace usage, symbol lookup.",
-      "model": "opencode-go/deepseek-v4-flash",
       "mode": "subagent",
-
+      "description": "Codebase scout. Reads and explores files, traces patterns, and gathers context.",
+      "model": "opencode-go/deepseek-v4-flash",
+      "maxSteps": 30,
+      "temperature": 0.1,
       "permission": {
-        "read": "allow",
-        "glob": "allow",
-        "grep": "allow",
-
         "bash": {
-          "git status": "allow",
-          "git diff": "allow",
-          "git log": "allow",
-          "git grep": "allow",
+          "cat *": "allow",
           "ls *": "allow",
-
-          "*": "deny"
+          "find *": "allow",
+          "grep *": "allow",
+          "rg *": "allow",
+          "fd *": "allow",
+          "head *": "allow",
+          "tail *": "allow",
+          "wc *": "allow",
+          "tree *": "allow",
+          "git log*": "allow",
+          "git diff*": "allow",
+          "git show*": "allow",
+          "git status*": "allow",
+          "npm list*": "allow",
+          "pip list*": "allow",
+          "*": "ask"
         },
-
-        "edit": "deny",
-        "task": "deny",
-        "webfetch": "deny",
-        "websearch": "deny",
-        "question": "deny",
-        "todowrite": "deny"
+        "file": {
+          "write": "deny",
+          "read": "allow"
+        }
       }
     },
-
     "release-engineer": {
-      "description": "Git execution agent (commit, branch, push). Requires explicit confirmation.",
-      "model": "opencode-go/qwen3.6-plus",
       "mode": "subagent",
-
+      "description": "Version control and release specialist. Git ops, versioning, changelogs, and CI/CD.",
+      "model": "opencode-go/qwen3.6-plus",
+      "maxSteps": 40,
+      "temperature": 0.1,
       "permission": {
-        "edit": "deny",
-        "bash": "allow",
-        "task": "deny",
-        "todowrite": "deny",
-        "question": "allow"
+        "bash": {
+          "git status*": "allow",
+          "git log*": "allow",
+          "git diff*": "allow",
+          "git add*": "allow",
+          "git commit*": "allow",
+          "git tag*": "allow",
+          "git branch*": "allow",
+          "git checkout*": "allow",
+          "git switch*": "allow",
+          "git fetch*": "allow",
+          "git pull*": "allow",
+          "git push*": "ask",
+          "git merge*": "ask",
+          "git rebase*": "ask",
+          "git reset*": "ask",
+          "git revert*": "ask",
+          "npm version*": "ask",
+          "npm publish*": "ask",
+          "*": "ask"
+        },
+        "file": {
+          "write": "allow",
+          "read": "allow"
+        }
       }
     }
   }

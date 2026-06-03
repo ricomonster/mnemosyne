@@ -1,134 +1,68 @@
-# Global instructions
+# Engineering Swarm — Agent Guide
 
-## Operating mode
+This project uses a **multi-agent orchestration setup** in OpenCode. The Orchestrator is the primary agent; all others are specialist subagents invoked by delegation or direct `@mention`.
 
-- Always operate in analysis mode: research, reason, and advise only.
-- Analysis agents never modify, create, or delete files directly.
-- Never suggest or request permission to execute changes ("shall I implement", "should I push", etc.).
-- All execution is handled explicitly by the user or specialized agents.
-- Analysis agents provide code snippets and implementation guidance, but do not perform file writes.
+---
 
-### Execution exception
+## Agent Roster
 
-- `release-engineer` is the only execution-oriented agent.
-- `release-engineer` may perform repository-changing git operations within its defined responsibilities and available permissions.
-- All other agents remain advisory-only.
+| Agent | Mode | Model | Role |
+|---|---|---|---|
+| `orchestrator` | primary | `opencode-go/kimi-k2.6` | Coordinates all agents, plans and delegates |
+| `architect` | subagent | `opencode-go/glm-5.1` | Infra, system design, IaC, ADRs |
+| `principal-engineer` | subagent | `opencode-go/deepseek-v4-pro` | Code implementation, patterns, standards |
+| `junior-engineer` | subagent | `opencode-go/deepseek-v4-flash` | Scouting, codebase exploration, research |
+| `release-engineer` | subagent | `opencode-go/qwen3.6-plus`| Git, versioning, changelogs, CI/CD |
 
-## Core principles
+---
 
-- KISS: simplicity over cleverness
-- Prefer clarity over abstraction
-- Minimize assumptions; base conclusions on observed code
-- Be direct: no filler, no restating the prompt
-- Ask only ONE clarifying question if required
-- Reference file:line when discussing existing code
+## How to Use
 
-## How to respond
+### Via Orchestrator (recommended)
+Just describe your goal at a high level. The Orchestrator will plan and dispatch:
 
-- Provide focused code snippets when suggesting changes (not full rewrites)
-- Keep explanations short and high-signal
-- Lead with the most important point
-- If multiple issues exist, prioritize by impact
-- Do not restate user input
+```
+Build a new payments service that hooks into our existing auth system and deploys on AWS ECS
+```
 
-## Bash usage (read-only only)
+The Orchestrator will delegate:
+- System design → `@architect`
+- Implementation → `@principal-engineer`
+- Codebase research → `@junior-engineer`
+- Release prep → `@release-engineer`
 
-### Allowed
+### Direct @mention
+Skip the orchestrator and call a specialist directly:
 
-- git status
-- git diff
-- git log
-- grep
-- ls
-- cat
-- go test
-- npm test
-- npm run lint
-- npm run test
+```
+@architect design the VPC topology for a multi-AZ ECS deployment
 
-### Forbidden
+@principal-engineer refactor the UserService to use the repository pattern
 
-- rm
-- mv
-- cp
-- curl
-- wget
-- external mutation commands
+@junior-engineer find all places where we call the payments API
 
-### Exception
+@release-engineer generate a changelog for everything since v1.4.0
+```
 
-- `release-engineer` may execute git operations required by its workflow, subject to configured permissions and safeguards.
+---
 
-## Assessment format
+## Agent Handoff Protocol
 
-When reviewing code:
+When the Orchestrator delegates a task, it passes:
+1. **Context**: relevant files, prior decisions, constraints
+2. **Scope**: exactly what is and isn't in scope
+3. **Output format**: what the agent should produce
 
-- Severity: [CRITICAL | HIGH | MEDIUM | LOW | INFO]
-- Always sort by severity
+Agents report back structured findings. The Orchestrator synthesizes and presents to the user.
 
-For each issue:
+---
 
-- severity
-- file:line
-- problem
-- impact
+## Permissions Summary
 
-Skip low-severity noise if higher-severity issues exist.
-
-## Agent routing
-
-- `senior-engineer` = default entrypoint for all requests
-- `junior-engineer` = observe
-- `architect` = design
-- `principal-engineer` = judge
-- `release-engineer` = git operations only
-
-### Routing rules
-
-1. All user requests enter through `senior-engineer` first.
-
-2. `senior-engineer` assesses scope and delegates:
-
-   - trivial / informational → handle directly
-   - observational / learning → `junior-engineer`
-   - design / structural decisions → `architect`
-   - system-level risk / long-term architectural concern → `principal-engineer`
-   - git operations → `release-engineer`
-
-3. When delegation occurs, `senior-engineer` synthesizes results before presenting them to the user.
-
-### senior-engineer
-
-**Role**
-
-- Default entrypoint and orchestrator
-
-**Responsibilities**
-
-- implementation guidance
-- code review
-- debugging
-- refactoring recommendations
-- agent coordination
-
-**Mode**
-
-- advisory only
-
-**Provides**
-
-- focused code snippets
-- file:line references
-- implementation approaches
-- diff suggestions for the user to apply
-
-**Does not**
-
-- write files
-- modify files
-- delete files
-- perform git operations
-
-## Critical rule
-
-Never escalate to `principal-engineer` unless there is a genuine system-level risk, reliability concern, scalability concern, or long-term architectural impact.
+| Agent | File Write | Bash |
+|---|---|---|
+| `orchestrator` | deny | ask |
+| `architect` | ask | ask |
+| `principal-engineer` | deny | allow (build/test/lint), ask (others) |
+| `junior-engineer` | **deny** | allow (read-only cmds), ask (others) |
+| `release-engineer` | allow | allow (safe git), ask (destructive ops) |

@@ -6,13 +6,13 @@ This project uses a **multi-agent orchestration setup** in OpenCode. The Orchest
 
 ## Agent Roster
 
-| Agent | Mode | Model | Role |
-|---|---|---|---|
-| `orchestrator` | primary | `opencode-go/kimi-k2.6` | Coordinates all agents, plans and delegates |
-| `architect` | subagent | `opencode-go/glm-5.1` | Infra, system design, IaC, ADRs |
-| `principal-engineer` | subagent | `opencode-go/deepseek-v4-pro` | Code implementation, patterns, standards |
-| `junior-engineer` | subagent | `opencode-go/deepseek-v4-flash` | Scouting, codebase exploration, research |
-| `release-engineer` | subagent | `opencode-go/qwen3.6-plus`| Git, versioning, changelogs, CI/CD |
+| Agent | Mode | Provider | Model | Role |
+|---|---|---|---|---|
+| `orchestrator` | primary | Go | `opencode-go/kimi-k2.6` | Coordinates all agents, assesses complexity, delegates, and synthesizes |
+| `architect` | subagent | Go | `opencode-go/glm-5.1` | Infra, system design, IaC snippets, ADRs |
+| `principal-engineer` | subagent | Go | `opencode-go/deepseek-v4-pro` | Code snippets, review feedback, patterns, standards |
+| `junior-engineer` | subagent | Go | `opencode-go/deepseek-v4-flash` | Scouting, codebase exploration, research |
+| `release-engineer` | subagent | Go | `opencode-go/qwen3.6-plus` | Git, versioning, changelogs, CI/CD |
 
 ---
 
@@ -27,7 +27,7 @@ Build a new payments service that hooks into our existing auth system and deploy
 
 The Orchestrator will delegate:
 - System design → `@architect`
-- Implementation → `@principal-engineer`
+- Snippet/review → `@principal-engineer`
 - Codebase research → `@junior-engineer`
 - Release prep → `@release-engineer`
 
@@ -36,11 +36,8 @@ Skip the orchestrator and call a specialist directly:
 
 ```
 @architect design the VPC topology for a multi-AZ ECS deployment
-
-@principal-engineer refactor the UserService to use the repository pattern
-
+@principal-engineer review the UserService for repository pattern compliance
 @junior-engineer find all places where we call the payments API
-
 @release-engineer generate a changelog for everything since v1.4.0
 ```
 
@@ -57,15 +54,53 @@ Agents report back structured findings. The Orchestrator synthesizes and present
 
 ---
 
+## Complexity Assessment
+
+Before delegating any code-related task, the orchestrator labels it explicitly:
+
+| Label | When |
+|---|---|
+| `[complexity: low]` | Single function, straightforward logic, no cross-cutting concerns |
+| `[complexity: medium]` | Multiple functions or files, some state management or error handling |
+| `[complexity: high]` | Architectural impact, cross-service concerns, security implications, non-trivial algorithms, or anything touching core/shared modules |
+
+The label is stated out loud before delegation so it's visible in the session.
+
+---
+
+## Review Gate
+
+For `[complexity: high]` tasks, the orchestrator routes output through a mandatory review pass before presenting to the user. The gate triggers only when **all** of the following are true:
+
+1. The output contains a code snippet (any language)
+2. The snippet is more than 15 lines
+3. `@principal-engineer` was not the one who originally produced it
+4. The task was labeled `[complexity: high]`
+
+**Review flow:**
+```
+[complexity: high] task
+  → delegate to producing agent
+  → route to @principal-engineer for review
+  → LGTM → present to user
+  → CHANGES NEEDED → revise → re-submit → present
+```
+
+Low and medium complexity tasks skip the review entirely.
+
+---
+
 ## Permissions Summary
 
 | Agent | File Write | Bash |
 |---|---|---|
 | `orchestrator` | deny | ask |
-| `architect` | ask | ask |
-| `principal-engineer` | deny | allow (build/test/lint), ask (others) |
+| `architect` | deny | ask |
+| `principal-engineer` | deny | allow (lint/test), ask (others) |
 | `junior-engineer` | **deny** | allow (read-only cmds), ask (others) |
 | `release-engineer` | allow | allow (safe git), ask (destructive ops) |
+
+---
 
 ## Global Rule: Advisory-Only Output
 

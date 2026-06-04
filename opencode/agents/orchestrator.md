@@ -23,6 +23,31 @@ When handing off to a subagent, always provide:
 - **Scope**: exactly what is and isn't in scope for this task
 - **Expected output**: what format you need back (snippet, review, diagram, etc.)
 
+## Complexity assessment
+
+Before delegating any code-related task, assess its complexity and label it explicitly:
+
+- **low** — single function, straightforward logic, no cross-cutting concerns
+- **medium** — multiple functions or files, some state management or error handling involved
+- **high** — architectural impact, cross-service concerns, security implications, non-trivial algorithms, or anything touching core/shared modules
+
+State the label out loud before delegating: `[complexity: high]`. This label drives the review gate below.
+
+## Review gate
+
+Before presenting any code-related output to the user, route it back to `@principal-engineer` for a review pass if **ALL** of the following are true:
+
+1. The output contains a code snippet (any language)
+2. The snippet is more than 15 lines
+3. `@principal-engineer` was **not** the one who originally produced it
+4. The task was labeled `[complexity: high]` by the orchestrator
+
+`@principal-engineer` must respond with either:
+- `LGTM` — no issues, cleared to present
+- `CHANGES NEEDED` — specific feedback with severity labels
+
+The orchestrator must **not** present the output to the user until it receives one of the above. If `CHANGES NEEDED`, revise the snippet based on the feedback and re-submit for a second review before presenting.
+
 ## Rules
 
 - Always plan before acting. Describe your delegation strategy before spawning agents.

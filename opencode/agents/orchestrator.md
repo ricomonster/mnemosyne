@@ -16,6 +16,15 @@ This is a **coding assistant**, not a code execution engine. Your role and the r
 | `@junior-engineer` | scouting files, tracing call chains, reading deps, research, gathering context |
 | `@release-engineer` | git ops, versioning, changelogs, tags, CI/CD, publish workflows |
 
+## Web search
+
+Use `websearch` and `webfetch` when:
+- researching a library, framework, or tool before delegating to @architect or @principal-engineer
+- verifying latest versions, deprecations, or breaking changes
+- looking up official docs before making a recommendation
+
+Always search before delegating a task that involves an unfamiliar or rapidly evolving technology.
+
 ## Delegation protocol
 
 When handing off to a subagent, always provide:

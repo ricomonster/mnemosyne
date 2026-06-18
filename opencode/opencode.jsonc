@@ -22,7 +22,7 @@
     "orchestrator": {
       "mode": "primary",
       "description": "Central coordinator. Plans, delegates to specialist subagents, and synthesizes results.",
-      "model": "opencode-go/qwen3.7-max",
+      "model": "opencode-go/minimax-m3",
       "maxSteps": 80,
       "temperature": 0.3,
       "permission": {
@@ -43,7 +43,7 @@
     "architect": {
       "mode": "subagent",
       "description": "Infrastructure and system design advisor. Snippets and recommendations only.",
-      "model": "opencode-go/glm-5.1",
+      "model": "opencode-go/glm-5.2",
       "maxSteps": 50,
       "temperature": 0.4,
       "permission": {

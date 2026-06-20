@@ -42,7 +42,7 @@
     "architect": {
       "mode": "subagent",
       "description": "Infrastructure and system design advisor. Snippets and recommendations only.",
-      "model": "opencode-go/glm-5.1",
+      "model": "opencode-go/glm-5.2",
       "steps": 50,
       "temperature": 0.4,
       "permission": {

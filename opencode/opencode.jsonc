@@ -8,9 +8,8 @@
     "agents/principal-engineer.md",
     "agents/release-engineer.md",
     "agents/orchestrator.md"
-  ], 
+  ],
   "default_agent": "orchestrator",
-
   "provider": {
     "opencode": {
       "options": {
@@ -23,7 +22,7 @@
       "mode": "primary",
       "description": "Central coordinator. Plans, delegates to specialist subagents, and synthesizes results.",
       "model": "opencode-go/qwen3.7-max",
-      "maxSteps": 80,
+      "steps": 80,
       "temperature": 0.3,
       "permission": {
         "bash": {
@@ -44,7 +43,7 @@
       "mode": "subagent",
       "description": "Infrastructure and system design advisor. Snippets and recommendations only.",
       "model": "opencode-go/glm-5.1",
-      "maxSteps": 50,
+      "steps": 50,
       "temperature": 0.4,
       "permission": {
         "bash": {
@@ -62,7 +61,7 @@
       "mode": "subagent",
       "description": "Senior coding advisor. Code snippets, review feedback, and standards guidance only.",
       "model": "opencode-go/deepseek-v4-pro",
-      "maxSteps": 60,
+      "steps": 60,
       "temperature": 0.2,
       "permission": {
         "bash": {
@@ -80,7 +79,7 @@
       "mode": "subagent",
       "description": "Codebase scout. Reads and explores files, traces patterns, and gathers context.",
       "model": "opencode-go/deepseek-v4-flash",
-      "maxSteps": 30,
+      "steps": 30,
       "temperature": 0.1,
       "permission": {
         "bash": {
@@ -112,7 +111,7 @@
       "mode": "subagent",
       "description": "Version control and release specialist. Git ops, versioning, changelogs, and CI/CD.",
       "model": "opencode-go/qwen3.6-plus",
-      "maxSteps": 40,
+      "steps": 40,
       "temperature": 0.1,
       "permission": {
         "bash": {

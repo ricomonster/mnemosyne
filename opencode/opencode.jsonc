@@ -21,7 +21,7 @@
     "orchestrator": {
       "mode": "primary",
       "description": "Central coordinator. Plans, delegates to specialist subagents, and synthesizes results.",
-      "model": "opencode-go/minimax-m3",
+      "model": "opencode-go/qwen3.7-max",
       "steps": 80,
       "temperature": 0.3,
       "permission": {

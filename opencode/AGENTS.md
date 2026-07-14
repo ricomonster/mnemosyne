@@ -12,7 +12,7 @@ This project uses a **multi-agent orchestration setup** in OpenCode. The Orchest
 | `architect` | subagent | Go | `opencode-go/glm-5.2` | Infra, system design, IaC snippets, ADRs |
 | `principal-engineer` | subagent | Go | `opencode-go/deepseek-v4-pro` | Code snippets, review feedback, patterns, standards |
 | `junior-engineer` | subagent | Go | `opencode-go/deepseek-v4-flash` | Scouting, codebase exploration, research |
-| `release-engineer` | subagent | Go | `opencode-go/qwen3.6-plus` | Git, versioning, changelogs, CI/CD |
+| `release-engineer` | subagent | Go | `opencode-go/qwen3.7-plus` | Git, versioning, changelogs, CI/CD |
 
 ---
 

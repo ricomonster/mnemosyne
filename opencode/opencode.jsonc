@@ -21,7 +21,7 @@
   "agent": {
     "orchestrator": {
       "mode": "primary",
-      "model": "google/gemini-3-flash-preview",
+      "model": "google/gemini-3.1-flash-lite",
       "steps": 60,
       "temperature": 0.2,
       "permission": {

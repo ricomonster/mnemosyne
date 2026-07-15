@@ -21,7 +21,7 @@
   "agent": {
     "orchestrator": {
       "mode": "primary",
-      "model": "opencode-go/mimo-v2.5-pro",
+      "model": "google/gemini-3-flash-preview",
       "steps": 60,
       "temperature": 0.2,
       "permission": {

@@ -12,7 +12,7 @@
   ],
   "default_agent": "orchestrator",
   "provider": {
-    "opencode": {
+    "opencode-go": {
       "options": {
         "setCacheKey": true,
       }
@@ -21,7 +21,7 @@
   "agent": {
     "orchestrator": {
       "mode": "primary",
-      "model": "google/gemini-3.5-flash-lite",
+      "model": "opencode-go/hy3",
       "steps": 60,
       "temperature": 0.2,
       "permission": {
@@ -58,7 +58,7 @@
     },
     "principal-engineer": {
       "mode": "subagent",
-      "model": "opencode-go/kimi-k3",
+      "model": "opencode-go/kimi-k2.7-code",
       "steps": 60,
       "temperature": 0.2,
       "permission": {

@@ -9,8 +9,8 @@ This project uses a **multi-agent orchestration setup** in OpenCode. The Orchest
 | Agent | Mode | Provider | Model | Role |
 |---|---|---|---|---|
 | `orchestrator` | primary | Go | `opencode-go/hy3` | Coordinates all agents, assesses complexity, delegates, and synthesizes |
-| `architect` | subagent | Go | `opencode-go/kimi-k3` | Infra, system design, IaC snippets, ADRs |
-| `principal-engineer` | subagent | Go | `opencode-go/glm-5.2` | Code snippets, review feedback, patterns, standards |
+| `architect` | subagent | Go | `opencode-go/glm-5.2` | Infra, system design, IaC snippets, ADRs |
+| `principal-engineer` | subagent | Go | `opencode-go/kimi-k3` | Code snippets, review feedback, patterns, standards |
 | `junior-engineer` | subagent | Go | `opencode-go/deepseek-v4-flash` | Scouting, codebase exploration, research |
 | `release-engineer` | subagent | Go | `opencode-go/qwen3.7-plus` | Git, versioning, changelogs, CI/CD |
 

@@ -41,7 +41,7 @@
     },
     "architect": {
       "mode": "subagent",
-      "model": "opencode-go/kimi-k3",
+      "model": "opencode-go/glm-5.2",
       "steps": 40,
       "temperature": 0.4,
       "permission": {
@@ -58,7 +58,7 @@
     },
     "principal-engineer": {
       "mode": "subagent",
-      "model": "opencode-go/glm-5.2",
+      "model": "opencode-go/kimi-k3",
       "steps": 60,
       "temperature": 0.2,
       "permission": {

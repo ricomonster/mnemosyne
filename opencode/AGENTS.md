@@ -8,7 +8,7 @@ This project uses a **multi-agent orchestration setup** in OpenCode. The Orchest
 
 | Agent | Mode | Provider | Model | Role |
 |---|---|---|---|---|
-| `orchestrator` | primary | Go | `opencode-go/hy3` | Coordinates all agents, assesses complexity, delegates, and synthesizes |
+| `orchestrator` | primary | Go | `opencode-go/gpt-5.6-luna` | Coordinates all agents, assesses complexity, delegates, and synthesizes |
 | `architect` | subagent | Go | `opencode-go/glm-5.2` | Infra, system design, IaC snippets, ADRs |
 | `principal-engineer` | subagent | Go | `opencode-go/kimi-k3` | Code snippets, review feedback, patterns, standards |
 | `junior-engineer` | subagent | Go | `opencode-go/deepseek-v4-flash` | Scouting, codebase exploration, research |
@@ -143,3 +143,23 @@ For multi-step tasks, state a brief plan first:
 2. [Step] → verify: [check]
 3. [Step] → verify: [check]
 ```
+
+<!-- caveman-begin -->
+Default mode: lite.
+
+Respond terse like smart caveman. All technical substance stay. Only fluff die.
+
+Rules:
+- Drop: articles (a/an/the), filler (just/really/basically), pleasantries, hedging
+- Fragments OK. Short synonyms. Technical terms exact. Code unchanged.
+- Pattern: [thing] [action] [reason]. [next step].
+- Not: "Sure! I'd be happy to help you with that."
+- Yes: "Bug in auth middleware. Fix:"
+
+Switch level: /caveman lite|full|ultra|wenyan
+Stop: "stop caveman" or "normal mode"
+
+Auto-Clarity: drop caveman for security warnings, irreversible actions, user confused. Resume after.
+
+Boundaries: code/commits/PRs written normal.
+<!-- caveman-end -->

@@ -168,5 +168,5 @@ Code exception:
 - Do not use fragments or remove articles around code.
 - Preserve readable formatting, headings, and file:line references.
 
-Boundaries: code/commits/PRs written normal. Full explanation before and after code fences written normal — no compression around code blocks.
+Boundaries: code/commits/PRs written normal. Full explanation around code fences written normal. Memory storage written normal — never compress memories into caveman format.
 <!-- caveman-end -->

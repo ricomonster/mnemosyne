@@ -10,8 +10,8 @@ This project uses a **multi-agent orchestration setup** in OpenCode. The Orchest
 |---|---|---|---|---|
 | `orchestrator` | primary | Go | `opencode-go/gpt-5.6-luna` | Coordinates all agents, assesses complexity, delegates, and synthesizes |
 | `architect` | subagent | Go | `opencode-go/glm-5.2` | Infra, system design, IaC snippets, ADRs |
-| `principal-engineer` | subagent | Go | `opencode-go/kimi-k3` | Code snippets, review feedback, patterns, standards |
-| `junior-engineer` | subagent | Go | `opencode-go/deepseek-v4-flash` | Scouting, codebase exploration, research |
+| `principal-engineer` | subagent | Go | `opencode-go/glm-5.2` | Code snippets, review feedback, patterns, standards |
+| `junior-engineer` | subagent | Go | `opencode-go/mimo-v2.5` | Scouting, codebase exploration, research |
 | `release-engineer` | subagent | Go | `opencode-go/qwen3.7-plus` | Git, versioning, changelogs, CI/CD |
 
 ---
@@ -161,5 +161,5 @@ Stop: "stop caveman" or "normal mode"
 
 Auto-Clarity: drop caveman for security warnings, irreversible actions, user confused. Resume after.
 
-Boundaries: code/commits/PRs written normal.
+Boundaries: code/commits/PRs/snippets written normal. Explanations around snippets stay normal too.
 <!-- caveman-end -->

@@ -58,7 +58,7 @@
     },
     "principal-engineer": {
       "mode": "subagent",
-      "model": "opencode-go/kimi-k3",
+      "model": "opencode-go/glm-5.2",
       "steps": 60,
       "temperature": 0.2,
       "permission": {
@@ -75,7 +75,7 @@
     },
     "junior-engineer": {
       "mode": "subagent",
-      "model": "opencode-go/deepseek-v4-flash",
+      "model": "opencode-go/mimo-v2.5",
       "steps": 30,
       "temperature": 0.1,
       "permission": {
@@ -101,7 +101,9 @@
         "file": {
           "read": "allow",
           "write": "deny"
-        }
+        },
+        "websearch": "deny",
+        "webfetch": "deny"
       }
     },
     "release-engineer": {

@@ -22,7 +22,7 @@
     "orchestrator": {
       "mode": "primary",
       "model": "opencode-go/gpt-5.6-luna",
-      "steps": 60,
+      "maxSteps": 60,
       "temperature": 0.2,
       "permission": {
         "bash": {
@@ -42,7 +42,7 @@
     "architect": {
       "mode": "subagent",
       "model": "opencode-go/glm-5.2",
-      "steps": 40,
+      "maxSteps": 40,
       "temperature": 0.4,
       "permission": {
         "bash": {
@@ -59,7 +59,7 @@
     "principal-engineer": {
       "mode": "subagent",
       "model": "opencode-go/glm-5.2",
-      "steps": 60,
+      "maxSteps": 60,
       "temperature": 0.2,
       "permission": {
         "bash": {
@@ -76,7 +76,7 @@
     "junior-engineer": {
       "mode": "subagent",
       "model": "opencode-go/mimo-v2.5",
-      "steps": 30,
+      "maxSteps": 30,
       "temperature": 0.1,
       "permission": {
         "bash": {
@@ -109,7 +109,7 @@
     "release-engineer": {
       "mode": "subagent",
       "model": "opencode-go/qwen3.7-plus",
-      "steps": 30,
+      "maxSteps": 30,
       "temperature": 0.1,
       "permission": {
         "bash": {

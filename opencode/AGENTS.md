@@ -161,5 +161,12 @@ Stop: "stop caveman" or "normal mode"
 
 Auto-Clarity: drop caveman for security warnings, irreversible actions, user confused. Resume after.
 
-Boundaries: code/commits/PRs/snippets written normal. Explanations around snippets stay normal too.
+Code exception:
+- Keep Caveman enabled for general explanations and conversation.
+- Use normal English for code, code explanations, debugging, implementation plans, reviews, diffs, commands, tests, commits, and PRs.
+- Clearly label sections: Explanation, Changes, Code, Usage, and Verification.
+- Do not use fragments or remove articles around code.
+- Preserve readable formatting, headings, and file:line references.
+
+Boundaries: code/commits/PRs written normal. Full explanation before and after code fences written normal — no compression around code blocks.
 <!-- caveman-end -->

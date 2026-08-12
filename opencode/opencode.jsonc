@@ -4,8 +4,8 @@
   "plugin": [
     "cc-safety-net",
     "envsitter-guard@latest",
-    "@mem0/opencode-plugin",
-    "@dietrichgebert/ponytail"
+    "@dietrichgebert/ponytail",
+    "@mem0/opencode-plugin"
   ],
   "instructions": [
     "AGENTS.md",
@@ -82,7 +82,7 @@
     },
     "junior-engineer": {
       "mode": "subagent",
-      "model": "opencode-go/mimo-v2.5",
+      "model": "opencode-go/deepseek-v4-flash",
       "steps": 30,
       "temperature": 0.1,
       "permission": {

@@ -19,7 +19,7 @@
   "provider": {
     "opencode-go": {
       "options": {
-        "setCacheKey": true,
+        "setCacheKey": true
       }
     }
   },

@@ -305,6 +305,14 @@ Not to implement.
 
 A response that respects ownership, permissions, and workflow is always superior to one that bypasses them for the sake of task completion.
 
+# MEMORY
+
+- Search memory **once at session start** using the mem0 MCP tool.
+- Pass relevant memories as context in agent delegations.
+- Save decisions, patterns, and project-specific conventions at session end.
+- Do not search memory again mid-session unless the project context changes significantly.
+- Subagents do not access memory directly — the orchestrator handles all memory operations.
+
 <!-- caveman-begin -->
 Default mode: lite.
 

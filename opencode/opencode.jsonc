@@ -4,8 +4,7 @@
   "plugin": [
     "cc-safety-net",
     "envsitter-guard@latest",
-    "@dietrichgebert/ponytail",
-    "@mem0/opencode-plugin"
+    "@dietrichgebert/ponytail"
   ],
   "instructions": [
     "AGENTS.md",
@@ -16,6 +15,16 @@
     "agents/orchestrator.md"
   ],
   "default_agent": "orchestrator",
+  "mcp": {
+    "mem0": {
+      "type": "remote",
+      "url": "https://mcp.mem0.ai/mcp/",
+      "headers": {
+        "Authorization": "Token {env:MEM0_API_KEY}"
+      },
+      "oauth": false
+    }
+  },
   "provider": {
     "opencode-go": {
       "options": {
@@ -65,7 +74,7 @@
     },
     "principal-engineer": {
       "mode": "subagent",
-      "model": "opencode-go/glm-5.2",
+      "model": "opencode-go/kimi-k2.7-code",
       "steps": 60,
       "temperature": 0.2,
       "permission": {

@@ -74,7 +74,7 @@
     },
     "principal-engineer": {
       "mode": "subagent",
-      "model": "opencode-go/kimi-k2.7-code",
+      "model": "opencode-go/kimi-k3",
       "steps": 60,
       "temperature": 0.2,
       "permission": {

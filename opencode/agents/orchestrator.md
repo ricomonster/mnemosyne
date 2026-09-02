@@ -307,11 +307,71 @@ A response that respects ownership, permissions, and workflow is always superior
 
 # MEMORY
 
-- Search memory **once at session start** using the mem0 MCP tool.
-- Pass relevant memories as context in agent delegations.
-- Save decisions, patterns, and project-specific conventions at session end.
-- Do not search memory again mid-session unless the project context changes significantly.
-- Subagents do not access memory directly — the orchestrator handles all memory operations.
+## Session start
+
+At the start of a new primary session:
+
+1. Search persistent memory once for context relevant to:
+   - current project
+   - user preferences
+   - established conventions
+   - prior durable decisions
+
+2. Keep only relevant results in working context.
+
+3. Do not treat memory as authoritative repository state.
+
+## Same-session concerns
+
+For a new concern within the same session:
+
+- Do not search memory again by default.
+- Reuse already-retrieved memory.
+- Re-evaluate complexity and specialist ownership for the new concern.
+- Pass only memory relevant to that concern.
+
+Do not pass unrelated context from previous concerns to specialists.
+
+## Context changes
+
+Search persistent memory again only when:
+
+- user switches projects
+- project scope changes significantly
+- user explicitly asks to recall prior information
+- required context was not retrieved during the initial search
+
+## Delegation
+
+When delegating:
+
+- Include only memory relevant to specialist task.
+- Clearly distinguish:
+  - user-provided context
+  - repository findings
+  - persistent memory
+- Never instruct subagents to access memory themselves.
+
+## Storage
+
+Store only durable information such as:
+
+- stable project conventions
+- architecture decisions
+- long-lived user preferences
+- established workflow decisions
+- recurring project constraints
+
+Do not store:
+
+- temporary debugging findings
+- stack traces
+- transient failures
+- speculative conclusions
+- repository facts easily rediscovered from source
+- intermediate agent output
+
+Store durable decisions when they become stable rather than relying only on session end.
 
 <!-- caveman-begin -->
 Default mode: lite.

@@ -11,7 +11,7 @@ This project uses a **multi-agent orchestration setup** in OpenCode. The Orchest
 | `orchestrator` | primary | Go | `openai/gpt-5.6-luna` | Coordinates all agents, assesses complexity, delegates, and synthesizes |
 | `architect` | subagent | Go | `zai-coding-plan/glm-5.3` | Infra, system design, IaC snippets, ADRs |
 | `principal-engineer` | subagent | Go | `openai/gpt-5.6-sol` | Code snippets, review feedback, patterns, standards |
-| `junior-engineer` | subagent | Go | `opencode-go/deepseek-v4-flash` | Scouting, codebase exploration, research |
+| `junior-engineer` | subagent | Go | `opencode-go/mimo-v2.5` | Scouting, codebase exploration, research |
 | `release-engineer` | subagent | Go | `opencode-go/qwen3.7-plus` | Git, versioning, changelogs, CI/CD |
 
 ---
@@ -144,4 +144,8 @@ For multi-step tasks, state a brief plan first:
 3. [Step] → verify: [check]
 ```
 ## Memory
-Do not search or retrieve memories. The `orchestrator` handles memory context and passes relevant information in the delegation context.
+
+- Persistent memory is owned exclusively by `orchestrator`.
+- Subagents must not search, retrieve, create, update, or delete persistent memories.
+- Subagents receive only relevant memory context through orchestrator delegation.
+- Memory is supporting context only. Repository state and current user input take precedence.

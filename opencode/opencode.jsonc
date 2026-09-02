@@ -92,7 +92,7 @@
     },
     "junior-engineer": {
       "mode": "subagent",
-      "model": "opencode-go/deepseek-v4-flash",
+      "model": "opencode-go/mimo-v2.5",
       "steps": 30,
       "temperature": 0.1,
       "permission": {

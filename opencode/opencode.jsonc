@@ -57,7 +57,7 @@
     },
     "architect": {
       "mode": "subagent",
-      "model": "zai-coding-plan/glm-5.3",
+      "model": "opencode-go/glm-5.3",
       "steps": 40,
       "temperature": 0.4,
       "permission": {

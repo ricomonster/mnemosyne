@@ -76,7 +76,7 @@
       "mode": "subagent",
       "model": "openai/gpt-5.6-sol",
       "steps": 60,
-      "reasoningEffort": "high",
+      "reasoningEffort": "max",
       "temperature": 0.2,
       "permission": {
         "bash": {

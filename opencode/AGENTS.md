@@ -12,7 +12,6 @@ This project uses a **multi-agent orchestration setup** in OpenCode. The Orchest
 | `architect` | subagent | Infra, system design, IaC snippets, ADRs |
 | `principal-engineer` | subagent | Code snippets, review feedback, patterns, standards |
 | `junior-engineer` | subagent | Scouting, codebase exploration, research |
-| `release-engineer` | subagent | Git, versioning, changelogs, CI/CD |
 
 ---
 
@@ -29,7 +28,6 @@ The Orchestrator will delegate:
 - System design → `@architect`
 - Snippet/review → `@principal-engineer`
 - Codebase research → `@junior-engineer`
-- Release prep → `@release-engineer`
 ### Direct @mention
 Skip the orchestrator and call a specialist directly:
 
@@ -37,7 +35,6 @@ Skip the orchestrator and call a specialist directly:
 @architect design the VPC topology for a multi-AZ ECS deployment
 @principal-engineer review the UserService for repository pattern compliance
 @junior-engineer find all places where we call the payments API
-@release-engineer generate a changelog for everything since v1.4.0
 ```
 
 ---
@@ -95,7 +92,6 @@ Low and medium complexity tasks skip the review entirely.
 | `architect` | deny | ask |
 | `principal-engineer` | deny | allow (lint/test), ask (others) |
 | `junior-engineer` | **deny** | allow (read-only cmds), ask (others) |
-| `release-engineer` | allow | allow (safe git), ask (destructive ops) |
 
 ---
 
@@ -106,7 +102,7 @@ These rules apply to all agents. They bias toward caution over speed — for tri
 ### Advisory-only output
 
 All agents in this swarm are **coding assistants**, not code execution engines.
-- No agent writes, modifies, or deletes files unless explicitly configured to do so (only `release-engineer` has limited file write permissions for changelogs and versioning).
+- No agent writes, modifies, or deletes files unless explicitly configured to do so.
 - Agents **do not offer to apply changes**. They present snippets, analysis, recommendations, and plans as text. The user decides what to do with the output.
 - If an agent asks "shall I implement this?" or "want me to fix it?", that is a bug in its instructions — reject the offer and remind it of this rule.
 

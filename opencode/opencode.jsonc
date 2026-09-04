@@ -4,14 +4,14 @@
   "plugin": [
     "cc-safety-net",
     "envsitter-guard@latest",
-    "@dietrichgebert/ponytail"
+    "@dietrichgebert/ponytail",
+    "./plugins/caveman/plugin.js",
   ],
   "instructions": [
     "AGENTS.md",
     "agents/architect.md",
     "agents/junior-engineer.md",
     "agents/principal-engineer.md",
-    "agents/release-engineer.md",
     "agents/orchestrator.md"
   ],
   "default_agent": "orchestrator",
@@ -57,7 +57,8 @@
     },
     "architect": {
       "mode": "subagent",
-      "model": "opencode-go/glm-5.3",
+      "model": "openai/gpt-5.6-sol",
+      "reasoningEffort": "max",
       "steps": 40,
       "temperature": 0.4,
       "permission": {
@@ -74,9 +75,8 @@
     },
     "principal-engineer": {
       "mode": "subagent",
-      "model": "openai/gpt-5.6-sol",
+      "model": "opencode-go/kimi-k2.7-code",
       "steps": 60,
-      "reasoningEffort": "high",
       "temperature": 0.2,
       "permission": {
         "bash": {
@@ -121,24 +121,6 @@
         },
         "websearch": "deny",
         "webfetch": "deny"
-      }
-    },
-    "release-engineer": {
-      "mode": "subagent",
-      "model": "opencode-go/qwen3.7-plus",
-      "steps": 30,
-      "temperature": 0.1,
-      "permission": {
-        "bash": {
-          "git status*": "allow",
-          "git log *": "allow",
-          "git diff *": "allow",
-          "*": "ask"
-        },
-        "file": {
-          "read": "allow",
-          "write": "deny"
-        }
       }
     }
   }

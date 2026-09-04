@@ -439,10 +439,31 @@ Subagents must not search, retrieve, create, update, or delete persistent memori
 
 Subagents receive only memory context relevant to delegated task.
 
-Memory is supporting context only.
+Memory is supporting historical context only. It never replaces current evidence or decisions made during current session.
 
 Authority order:
 
 1. Current user input
 2. Current repository findings
-3. Persistent memory
+3. Current session context
+4. Persistent memory
+
+When sources conflict:
+
+* Current user instructions override older session decisions and persistent memory.
+* Current repository findings override remembered repository state.
+* Decisions established during current session override conflicting persistent memory.
+* Persistent memory supplies historical context only when no newer authoritative information exists.
+
+Extractor owns memory retrieval, filtering, storage, and supersession.
+
+Memory retrieval follows concern relevance rather than session boundaries:
+
+* Reuse relevant memory already present in current working context.
+* Retrieve targeted memory when materially different concern requires missing historical context.
+* Do not repeatedly retrieve memory for normal follow-ups within same concern.
+* Skip memory when historical context cannot materially affect task.
+
+Store only durable decisions, conventions, preferences, and project constraints.
+
+When newer durable decision supersedes stored memory, update or explicitly supersede obsolete memory rather than treating both as equally valid.

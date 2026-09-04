@@ -9,12 +9,12 @@
   "instructions": [
     "AGENTS.md",
     "agents/architect.md",
-    "agents/junior-engineer.md",
-    "agents/principal-engineer.md",
-    "agents/release-engineer.md",
-    "agents/orchestrator.md"
+    "agents/chemist.md",
+    "agents/extractor.md",
+    "agents/forger.md",
+    "agents/point-man.md"
   ],
-  "default_agent": "orchestrator",
+  "default_agent": "extractor",
   "mcp": {
     "mem0": {
       "type": "remote",
@@ -33,7 +33,7 @@
     }
   },
   "agent": {
-    "orchestrator": {
+    "extractor": {
       "mode": "primary",
       "model": "openai/gpt-5.6-luna",
       "reasoningEffort": "high",
@@ -57,7 +57,7 @@
     },
     "architect": {
       "mode": "subagent",
-      "model": "opencode-go/glm-5.3",
+      "model": "openai/gpt-5.6-terra",
       "steps": 40,
       "temperature": 0.4,
       "permission": {
@@ -72,9 +72,9 @@
         "webfetch": "allow"
       }
     },
-    "principal-engineer": {
+    "forger": {
       "mode": "subagent",
-      "model": "openai/gpt-5.6-sol",
+      "model": "opencode-go/kimi-k2.7-code",
       "steps": 60,
       "reasoningEffort": "max",
       "temperature": 0.2,
@@ -90,7 +90,7 @@
         }
       }
     },
-    "junior-engineer": {
+    "chemist": {
       "mode": "subagent",
       "model": "opencode-go/mimo-v2.5",
       "steps": 30,
@@ -123,22 +123,23 @@
         "webfetch": "deny"
       }
     },
-    "release-engineer": {
+    "point-man": {
       "mode": "subagent",
-      "model": "opencode-go/qwen3.7-plus",
-      "steps": 30,
+      "model": "openai/gpt-5.6-sol",
+      "reasoningEffort": "max",
+      "textVerbosity": "low",
+      "steps": 40,
       "temperature": 0.1,
       "permission": {
         "bash": {
-          "git status*": "allow",
-          "git log *": "allow",
-          "git diff *": "allow",
-          "*": "ask"
+          "*": "deny"
         },
         "file": {
-          "read": "allow",
+          "read": "deny",
           "write": "deny"
-        }
+        },
+        "websearch": "deny",
+        "webfetch": "deny"
       }
     }
   }

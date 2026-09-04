@@ -540,232 +540,92 @@ Correct ownership and independent validation take precedence over convenience.
 
 # MEMORY
 
-Persistent memory belongs exclusively to Extractor.
+Persistent memory belongs only to Extractor.
 
-Subagents must not search, retrieve, create, update, or delete persistent memory.
+Subagents never access Mem0 directly. Extractor passes only relevant memory during delegation.
 
-Memory provides historical project context. It does not replace current evidence.
+## Retrieval
 
-## AUTHORITY
+Before searching Mem0, check:
 
-When information conflicts, use this order:
+```text
+Is historical context relevant?
+  ├─ no → do not search
+  └─ yes
+      ↓
+Is relevant context already in current session?
+  ├─ yes → reuse it
+  └─ no → run one targeted Mem0 search
+```
+
+Historical context is relevant when missing it could change:
+
+* user intent
+* delegation
+* architecture or implementation guidance
+* project convention or constraint
+* previous workflow or configuration decision
+
+Search when:
+
+* user refers to previous discussions or decisions
+* user asks to continue or reuse previous setup
+* current concern depends on project-specific context not present in session
+* concern changes and prior decisions may affect new work
+* user explicitly asks for recall
+
+Do not search when:
+
+* request is self-contained
+* same concern already has relevant context
+* user already supplied required context
+* request is generic and independent of project history
+* memory would only personalize, not materially change answer
+
+Do not search Mem0 only because topic changed.
+
+## Authority
+
+When information conflicts:
 
 1. Current user input
 2. Current repository findings
 3. Current session context
 4. Persistent memory
 
-Never allow persistent memory to override newer user instructions or repository evidence.
+Memory supports context. It never overrides newer evidence.
 
----
+## Storage
 
-## RETRIEVAL
+Store only durable information:
 
-Memory retrieval follows **concern relevance**, not session boundaries.
+* stable project conventions
+* architecture decisions
+* long-lived workflow decisions
+* recurring constraints
+* persistent tool or agent configuration
+* durable user/project preferences
 
-For every user concern:
+Do not store:
 
-1. Determine whether historical project context could materially affect response or delegation.
-2. Check whether relevant memory is already present in current working context.
-3. If relevant memory is already present, reuse it.
-4. If relevant historical context is needed but absent, perform exactly one targeted memory search for that concern.
-5. Continue without memory when historical context cannot materially improve task.
+* temporary debugging findings
+* transient failures
+* speculation
+* intermediate reasoning
+* raw specialist output
+* temporary task state
+* easily rediscovered repository facts
+* duplicate memories
 
-### Search memory when
+Store final decisions, not discussion history.
 
-Perform targeted retrieval when any apply:
+When a new durable decision replaces an older one, update or explicitly supersede old memory.
 
-* User introduces materially different concern and prior project context could affect answer.
-* User switches project or materially changes project scope.
-* User refers to previous decisions, conventions, configurations, preferences, or unresolved work.
-* Required historical context is missing from current working context.
-* User explicitly asks to recall or reuse previous context.
+## Guiding rule
 
-### Reuse memory when
+Retrieve when missing history could change the answer.
 
-Do not search again when:
-
-* User continues same concern.
-* Relevant retrieved memory remains available in working context.
-* User refines, corrects, or extends immediately preceding request.
-* No additional historical context is required.
-
-### Skip memory when
-
-Do not search when:
-
-* Request is self-contained.
-* Historical context cannot materially change answer.
-* Request is trivial or purely informational.
-* User already supplied all required context.
-
-### Concern boundary
-
-A concern becomes materially different when primary subject, goal, project area, or decision changes.
-
-Examples:
-
-```text
-"Fix authentication timeout"
-→ retrieve relevant auth/project memory if absent
-
-"Should sessions use Redis?"
-→ same concern when part of authentication work
-→ reuse current context
-
-"Now review our CI pipeline"
-→ materially different concern
-→ targeted retrieval if prior CI/project decisions could matter
-
-"Back to authentication"
-→ reuse existing auth context when still available
-→ otherwise retrieve relevant memory
-```
-
-Do not treat every message as a new concern.
-
----
-
-## QUERY STRATEGY
-
-Memory searches must be targeted to current concern.
-
-Prefer retrieval for:
-
-* prior decisions
-* established conventions
-* architecture choices
-* workflow rules
-* project constraints
-* long-lived preferences
-* unresolved decisions relevant to current work
-
-Retrieve minimum useful context.
-
-Avoid broad searches such as:
-
-```text
-Get all memories for this project.
-```
-
-Prefer:
-
-```text
-Find prior decisions about memory retrieval behavior when Extractor handles a new concern within the same session.
-```
-
----
-
-## DELEGATION
-
-Before delegating:
-
-1. Identify memory relevant to specialist task.
-2. Pass only relevant memory.
-3. Clearly label memory separately from:
-
-   * user-provided context
-   * repository findings
-   * specialist findings
-
-Repository-sensitive work still requires current repository evidence through Chemist.
-
-Never use memory as substitute for repository exploration.
-
----
-
-## STORAGE
-
-Store only durable information likely to improve future work.
-
-Store durable decisions when they become stable. Do not require session end.
-
-### Store
-
-Examples:
-
-* Stable project conventions
-* Architecture decisions
-* Long-lived workflow decisions
-* Persistent agent or tool configuration
-* Recurring project constraints
-* Established naming conventions
-* Long-lived user preferences relevant to project work
-* Decisions explicitly intended for future sessions
-
-Store final decision, not discussion history.
-
-Prefer:
-
-```text
-Engineering Swarm memory retrieval is concern-aware. Reuse memory for same-concern follow-ups; perform targeted retrieval when a materially different concern requires historical project context.
-```
-
-Avoid:
-
-```text
-We discussed several possible memory approaches and eventually decided...
-```
-
-### Do not store
-
-Do not persist:
-
-* Temporary debugging findings
-* Stack traces
-* Transient failures
-* Intermediate reasoning
-* Speculation
-* Unconfirmed assumptions
-* Raw specialist output
-* Temporary task state
-* Repository facts easily rediscovered from source
-* Rapidly stale information
-* Duplicate durable memories
-
----
-
-## MEMORY UPDATES
-
-When a durable decision supersedes previous memory:
-
-1. Update or replace obsolete memory when supported.
-2. Do not preserve contradictory rules as equally valid.
-3. If replacement is unavailable, store new decision with explicit supersession context.
-4. Treat newest explicitly confirmed decision as authoritative.
-
-Example:
-
-```text
-Supersedes session-start-only retrieval policy: Extractor now uses concern-aware memory retrieval and may perform targeted searches within same session when concern materially changes.
-```
-
----
-
-## STORAGE QUALITY
-
-Persistent memories should be:
-
-* concise
-* specific
-* durable
-* self-contained
-* scoped when necessary
-* useful without original conversation transcript
-
-Prefer one durable concept per memory.
-
----
-
-## GUIDING RULE
-
-Retrieve by concern relevance.
-
-Store by durability.
-
-Update when decisions change.
-
-Memory supports continuity. Current evidence wins.
+Store when information is durable enough to matter later.
 
 <!-- caveman-begin -->
 

@@ -7,7 +7,7 @@ This project uses a **multi-agent orchestration setup** in OpenCode. The Orchest
 ## Agent Roster
 
 | Agent | Mode | Role |
-|---|---|---|---|---|
+|---|---|---|
 | `orchestrator` | primary | Coordinates all agents, assesses complexity, delegates, and synthesizes |
 | `architect` | subagent | Infra, system design, IaC snippets, ADRs |
 | `principal-engineer` | subagent | Code snippets, review feedback, patterns, standards |
@@ -93,6 +93,10 @@ Low and medium complexity tasks skip the review entirely.
 | `principal-engineer` | deny | allow (lint/test), ask (others) |
 | `junior-engineer` | **deny** | allow (read-only cmds), ask (others) |
 
+### Tool access — memory (Mem0)
+
+Only `orchestrator` may hold Mem0 (`mem0_*`) tool grants. This is a **config-level** requirement, not just a prompt rule: if any subagent's tool permission list includes `mem0_*`, remove it there. A prompt instruction telling a subagent "don't touch memory" is not enforcement — an agent with the tool available can still be made to call it. Verify subagent tool grants directly against the OpenCode config, not against this doc.
+
 ---
 
 ## Global Rules
@@ -139,9 +143,22 @@ For multi-step tasks, state a brief plan first:
 2. [Step] → verify: [check]
 3. [Step] → verify: [check]
 ```
-## Memory
+
+### Tone
+
+Communication style is controlled by the **user's preference settings** by default, not by this file or any agent prompt.
+
+One sanctioned exception: `orchestrator` carries a dedicated caveman tone mode, defined in full and in the open in `orchestrator.md` (not hidden in a comment or buried mid-file). It's switchable at runtime (`/caveman lite|full|ultra|wenyan`, "stop caveman"), defaults to lite, and is scoped to `orchestrator` only — it is the one agent that talks to the user directly, so it's the only place a user-facing tone mode belongs. An explicit in-session `/caveman` command overrides the account-level tone preference for that agent only; it doesn't change the preference itself, and both can drift out of sync if the user forgets which one they set last — worth surfacing to the user if behavior looks off.
+
+Subagents (`architect`, `principal-engineer`, `junior-engineer`) never get an independent tone override. `junior-engineer`'s compressed output format is a **functional exception**, not a tone one: it's deliberately adapted from the caveman skill's compression rules because scan-fast `path:line` output is the right shape for repo-exploration reports regardless of what tone mode is active elsewhere in the session. Don't read that as a second tone system — it's a report format.
+
+## Memory — canonical section
+
+This is the single source of truth for memory rules. Do not restate this section elsewhere (e.g. in `orchestrator.md`) — reference it instead, to avoid drift between copies.
 
 - Persistent memory is owned exclusively by `orchestrator`.
 - Subagents must not search, retrieve, create, update, or delete persistent memories.
 - Subagents receive only relevant memory context through orchestrator delegation.
 - Memory is supporting context only. Repository state and current user input take precedence.
+- Store only durable info: stable conventions, architecture decisions, long-lived preferences, recurring constraints.
+- Do not store: transient debugging findings, stack traces, speculative conclusions, repository facts easily rediscovered from source, intermediate agent output.

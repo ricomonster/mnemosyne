@@ -10,18 +10,11 @@
   "instructions": [
     "AGENTS.md",
     "agents/architect.md",
-<<<<<<< HEAD
-    "agents/chemist.md",
-    "agents/extractor.md",
-    "agents/forger.md",
-    "agents/point-man.md"
-=======
     "agents/junior-engineer.md",
     "agents/principal-engineer.md",
     "agents/orchestrator.md"
->>>>>>> 28073c40aeac65eebc3324f8f294a9e6e11391fe
   ],
-  "default_agent": "extractor",
+  "default_agent": "orchestrator",
   "mcp": {
     "mem0": {
       "type": "remote",
@@ -40,7 +33,7 @@
     }
   },
   "agent": {
-    "extractor": {
+    "orchestrator": {
       "mode": "primary",
       "model": "openai/gpt-5.6-luna",
       "reasoningEffort": "high",
@@ -65,12 +58,8 @@
     },
     "architect": {
       "mode": "subagent",
-<<<<<<< HEAD
-      "model": "openai/gpt-5.6-terra",
-=======
-      "model": "openai/gpt-5.6-sol",
+      "model": "openai/gpt-6-astra",
       "reasoningEffort": "high",
->>>>>>> 28073c40aeac65eebc3324f8f294a9e6e11391fe
       "steps": 40,
       "temperature": 0.4,
       "permission": {
@@ -86,14 +75,10 @@
         "webfetch": "allow"
       }
     },
-    "forger": {
+    "principal-engineer": {
       "mode": "subagent",
-      "model": "opencode-go/kimi-k2.7-code",
+      "model": "openai/gpt-5.6-sol",
       "steps": 60,
-<<<<<<< HEAD
-      "reasoningEffort": "max",
-=======
->>>>>>> 28073c40aeac65eebc3324f8f294a9e6e11391fe
       "temperature": 0.2,
       "permission": {
         "mem0_*": "deny",
@@ -108,7 +93,7 @@
         }
       }
     },
-    "chemist": {
+    "junior-engineer": {
       "mode": "subagent",
       "model": "opencode-go/mimo-v2.5",
       "steps": 30,
@@ -141,28 +126,6 @@
         "websearch": "deny",
         "webfetch": "deny"
       }
-<<<<<<< HEAD
-    },
-    "point-man": {
-      "mode": "subagent",
-      "model": "openai/gpt-5.6-sol",
-      "reasoningEffort": "max",
-      "textVerbosity": "low",
-      "steps": 40,
-      "temperature": 0.1,
-      "permission": {
-        "bash": {
-          "*": "deny"
-        },
-        "file": {
-          "read": "deny",
-          "write": "deny"
-        },
-        "websearch": "deny",
-        "webfetch": "deny"
-      }
-=======
->>>>>>> 28073c40aeac65eebc3324f8f294a9e6e11391fe
     }
   }
 }

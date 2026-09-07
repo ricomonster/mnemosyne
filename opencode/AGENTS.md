@@ -46,6 +46,7 @@ When the Orchestrator delegates a task, it passes:
 2. **Scope**: exactly what is and isn't in scope
 3. **Output format**: what the agent should produce
 Agents report back structured findings. The Orchestrator synthesizes and presents to the user.
+
 ---
 
 ## Complexity Assessment
@@ -70,7 +71,6 @@ For `[complexity: high]` tasks, the orchestrator routes output through a mandato
 2. The snippet is more than 15 lines
 3. `@principal-engineer` was not the one who originally produced it
 4. The task was labeled `[complexity: high]`
-
 **Review flow:**
 ```
 [complexity: high] task
@@ -94,7 +94,7 @@ Low and medium complexity tasks skip the review entirely.
 | `junior-engineer` | **deny** | allow (read-only cmds), ask (others) |
 
 ### Tool access — memory (Mem0)
- 
+
 Only `orchestrator` may hold Mem0 (`mem0_*`) tool grants. This is a **config-level** requirement, not just a prompt rule: if any subagent's tool permission list includes `mem0_*`, remove it there. A prompt instruction telling a subagent "don't touch memory" is not enforcement — an agent with the tool available can still be made to call it. Verify subagent tool grants directly against the OpenCode config, not against this doc.
 
 ---
@@ -136,8 +136,8 @@ Transform tasks into verifiable goals before producing output:
 - "Add validation" → "Here's a snippet for invalid input handling, and the tests that should pass"
 - "Fix the bug" → "Here's a test that reproduces it, and the fix"
 - "Refactor X" → "Here's the before/after, tests should still pass"
-
 For multi-step tasks, state a brief plan first:
+
 ```
 1. [Step] → verify: [check]
 2. [Step] → verify: [check]

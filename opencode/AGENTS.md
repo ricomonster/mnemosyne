@@ -8,6 +8,7 @@ The Extractor is the primary agent. All others are specialist subagents invoked 
 
 ## Agent Roster
 
+<<<<<<< HEAD
 | Agent       | Mode     | Role                                                                                    |
 | ----------- | -------- | --------------------------------------------------------------------------------------- |
 | `extractor` | primary  | Coordinates swarm, assesses complexity, delegates, manages review workflow, synthesizes |
@@ -40,6 +41,14 @@ Point Man
 ```
 
 Creation and validation are intentionally separated.
+=======
+| Agent | Mode | Role |
+|---|---|---|
+| `orchestrator` | primary | Coordinates all agents, assesses complexity, delegates, and synthesizes |
+| `architect` | subagent | Infra, system design, IaC snippets, ADRs |
+| `principal-engineer` | subagent | Code snippets, review feedback, patterns, standards |
+| `junior-engineer` | subagent | Scouting, codebase exploration, research |
+>>>>>>> 28073c40aeac65eebc3324f8f294a9e6e11391fe
 
 ---
 
@@ -64,15 +73,27 @@ Implementation     → @forger
 Independent review → @point-man
 ```
 
+<<<<<<< HEAD
+=======
+The Orchestrator will delegate:
+- System design → `@architect`
+- Snippet/review → `@principal-engineer`
+- Codebase research → `@junior-engineer`
+>>>>>>> 28073c40aeac65eebc3324f8f294a9e6e11391fe
 ### Direct @mention
 
 Specialists may also be invoked directly:
 
 ```text
 @architect design the VPC topology for a multi-AZ ECS deployment
+<<<<<<< HEAD
 @forger show an implementation pattern for idempotent payment retries
 @point-man review this payment retry implementation for correctness
 @chemist find all places where we call the payments API
+=======
+@principal-engineer review the UserService for repository pattern compliance
+@junior-engineer find all places where we call the payments API
+>>>>>>> 28073c40aeac65eebc3324f8f294a9e6e11391fe
 ```
 
 ---
@@ -354,6 +375,7 @@ Only work actually reviewed by Point Man may be described as Point Man validated
 
 ## Permissions Summary
 
+<<<<<<< HEAD
 | Agent       | File Write | Repository Exploration |
 | ----------- | ---------- | ---------------------- |
 | `extractor` | deny       | deny                   |
@@ -363,6 +385,18 @@ Only work actually reviewed by Point Man may be described as Point Man validated
 | `chemist`   | deny       | allow, read-only       |
 
 Exact Bash and tool permissions remain enforced by OpenCode configuration.
+=======
+| Agent | File Write | Bash |
+|---|---|---|
+| `orchestrator` | deny | ask |
+| `architect` | deny | ask |
+| `principal-engineer` | deny | allow (lint/test), ask (others) |
+| `junior-engineer` | **deny** | allow (read-only cmds), ask (others) |
+
+### Tool access — memory (Mem0)
+
+Only `orchestrator` may hold Mem0 (`mem0_*`) tool grants. This is a **config-level** requirement, not just a prompt rule: if any subagent's tool permission list includes `mem0_*`, remove it there. A prompt instruction telling a subagent "don't touch memory" is not enforcement — an agent with the tool available can still be made to call it. Verify subagent tool grants directly against the OpenCode config, not against this doc.
+>>>>>>> 28073c40aeac65eebc3324f8f294a9e6e11391fe
 
 ---
 
@@ -372,12 +406,19 @@ These rules apply to all swarm agents.
 
 ### Advisory-only output
 
+<<<<<<< HEAD
 All swarm agents are **coding assistants**, not execution engines.
 
 * No swarm agent writes, modifies, renames, moves, or deletes repository files.
 * Agents present snippets, analysis, recommendations, reviews, plans, and findings as text.
 * Agents do not offer to apply changes.
 * Repository mutation remains user-controlled or external-tool-controlled.
+=======
+All agents in this swarm are **coding assistants**, not code execution engines.
+- No agent writes, modifies, or deletes files unless explicitly configured to do so.
+- Agents **do not offer to apply changes**. They present snippets, analysis, recommendations, and plans as text. The user decides what to do with the output.
+- If an agent asks "shall I implement this?" or "want me to fix it?", that is a bug in its instructions — reject the offer and remind it of this rule.
+>>>>>>> 28073c40aeac65eebc3324f8f294a9e6e11391fe
 
 ### Think before acting
 
@@ -429,6 +470,7 @@ For multi-step tasks:
 3. [Step] → verify: [check]
 ```
 
+<<<<<<< HEAD
 ---
 
 ## Memory
@@ -467,3 +509,23 @@ Memory retrieval follows concern relevance rather than session boundaries:
 Store only durable decisions, conventions, preferences, and project constraints.
 
 When newer durable decision supersedes stored memory, update or explicitly supersede obsolete memory rather than treating both as equally valid.
+=======
+### Tone
+
+Communication style is controlled by the **user's preference settings** by default, not by this file or any agent prompt.
+
+One sanctioned exception: `orchestrator` carries a dedicated caveman tone mode, defined in full and in the open in `orchestrator.md` (not hidden in a comment or buried mid-file). It's switchable at runtime (`/caveman lite|full|ultra|wenyan`, "stop caveman"), defaults to lite, and is scoped to `orchestrator` only — it is the one agent that talks to the user directly, so it's the only place a user-facing tone mode belongs. An explicit in-session `/caveman` command overrides the account-level tone preference for that agent only; it doesn't change the preference itself, and both can drift out of sync if the user forgets which one they set last — worth surfacing to the user if behavior looks off.
+
+Subagents (`architect`, `principal-engineer`, `junior-engineer`) never get an independent tone override. `junior-engineer`'s compressed output format is a **functional exception**, not a tone one: it's deliberately adapted from the caveman skill's compression rules because scan-fast `path:line` output is the right shape for repo-exploration reports regardless of what tone mode is active elsewhere in the session. Don't read that as a second tone system — it's a report format.
+
+## Memory — canonical section
+
+This is the single source of truth for memory rules. Do not restate this section elsewhere (e.g. in `orchestrator.md`) — reference it instead, to avoid drift between copies.
+
+- Persistent memory is owned exclusively by `orchestrator`.
+- Subagents must not search, retrieve, create, update, or delete persistent memories.
+- Subagents receive only relevant memory context through orchestrator delegation.
+- Memory is supporting context only. Repository state and current user input take precedence.
+- Store only durable info: stable conventions, architecture decisions, long-lived preferences, recurring constraints.
+- Do not store: transient debugging findings, stack traces, speculative conclusions, repository facts easily rediscovered from source, intermediate agent output.
+>>>>>>> 28073c40aeac65eebc3324f8f294a9e6e11391fe

@@ -160,5 +160,5 @@ This is the single source of truth for memory rules. Do not restate this section
 - Subagents must not search, retrieve, create, update, or delete persistent memories.
 - Subagents receive only relevant memory context through orchestrator delegation.
 - Memory is supporting context only. Repository state and current user input take precedence.
-- Store only durable info: stable conventions, architecture decisions, long-lived preferences, recurring constraints.
+- Store only durable info: stable conventions, architecture decisions, long-lived preferences, recurring constraints, recurring pain points (friction/questions/workarounds repeated 2+ times in session).
 - Do not store: transient debugging findings, stack traces, speculative conclusions, repository facts easily rediscovered from source, intermediate agent output.

@@ -11,6 +11,7 @@ This project uses a **multi-agent orchestration setup** in OpenCode. The Orchest
 | `orchestrator` | primary | Coordinates all agents, assesses complexity, delegates, and synthesizes |
 | `architect` | subagent | Infra, system design, IaC snippets, ADRs |
 | `principal-engineer` | subagent | Code snippets, review feedback, patterns, standards |
+| `code-reviewer` | subagent | Review-only: verdicts and findings on snippets from other agents |
 | `junior-engineer` | subagent | Scouting, codebase exploration, research |
 
 ---
@@ -69,13 +70,13 @@ For `[complexity: high]` tasks, the orchestrator routes output through a mandato
 
 1. The output contains a code snippet (any language)
 2. The snippet is more than 15 lines
-3. `@principal-engineer` was not the one who originally produced it
+3. `@code-reviewer` was not the one who originally produced it
 4. The task was labeled `[complexity: high]`
 **Review flow:**
 ```
 [complexity: high] task
   → delegate to producing agent
-  → route to @principal-engineer for review
+  → route to @code-reviewer for review
   → LGTM → present to user
   → CHANGES NEEDED → revise → re-submit → present
 ```
@@ -91,6 +92,7 @@ Low and medium complexity tasks skip the review entirely.
 | `orchestrator` | deny | ask |
 | `architect` | deny | ask |
 | `principal-engineer` | deny | allow (lint/test), ask (others) |
+| `code-reviewer` | deny | deny |
 | `junior-engineer` | **deny** | allow (read-only cmds), ask (others) |
 
 ### Tool access — memory (Mem0)

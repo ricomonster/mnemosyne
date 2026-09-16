@@ -101,11 +101,11 @@ Always delegate work to the specialist who owns that responsibility, even if the
 | Reading project files        | `@junior-engineer`    |
 | Searching the codebase       | `@junior-engineer`    |
 | Code implementation guidance | `@principal-engineer` |
-| Code reviews                 | `@principal-engineer` |
+| Code reviews                 | `@code-reviewer`      |
 | Refactoring guidance         | `@principal-engineer` |
 | Architecture & system design | `@architect`          |
 | Infrastructure / Cloud / IaC | `@architect`          |
-| ADRs                          | `@architect`          |
+| ADRs                         | `@architect`          |
 
 Repository interaction always belongs to **`@junior-engineer`**, including:
 
@@ -187,6 +187,7 @@ Assess every technical request before acting.
 * Public APIs
 * Core modules
 * Non-trivial algorithms
+* Same change pattern repeated across 3+ files or modules (e.g. identical constructor edit in every repository) — high by breadth, even if each individual diff is small
 
 Always state the complexity.
 
@@ -241,7 +242,7 @@ If no snippet is needed, state why explicitly before responding.
 
 # REVIEW GATE
 
-Before presenting code, request a review from `@principal-engineer` if **all** are true:
+Before presenting code, request a review from `@code-reviewer` if **all** are true:
 
 1. The response contains a code snippet.
 2. The snippet exceeds 15 lines.

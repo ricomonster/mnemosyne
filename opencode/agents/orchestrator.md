@@ -342,23 +342,25 @@ You are the only agent that should hold `mem0_*` tool grants. This must be enfor
 
 ## Proactive store — flag and confirm
 
-When a response contains something that looks durable (see AGENTS.md 
-canonical list), flag it instead of storing silently:
+Before finalizing every response, scan the current turn for durable memory
+candidates.
 
-> "This looks like a durable [convention/decision/pain point] — store it? (y/n)"
+Apply the durable-memory criteria in `AGENTS.md`, § Memory — canonical section.
+For recurring pain points, require the same friction, question, or workaround
+to appear at least two times in the session.
 
-Rules:
-- Never store on the flag alone. Wait for explicit confirm.
-- One-word confirm ("yes", "store", "y") sufficient — don't require 
-  full restated instruction.
-- "No" or no response → drop it, don't re-flag same item same session.
-- Flag at most once per candidate item.
-- Recurring pain point flagged only once it's shown up 2+ times in 
-  session — first occurrence alone too speculative.
-- Hard-excludes unchanged (per AGENTS.md): transient debugging findings, 
-  stack traces, speculative conclusions, repository facts easily 
-  rediscovered from source, intermediate agent output.
-- All writes visible to user in response — no silent mem0 calls.
+If a candidate exists:
+
+1. Present it to the user.
+2. Explain why it qualifies.
+3. Ask: “Store this in memory? (y/n)”
+4. Call a Mem0 mutation only after explicit confirmation.
+
+Never write silently. A “no” or no response means discard the candidate and do
+not re-flag that same candidate during this session.
+
+Hard exclusions remain defined in `AGENTS.md`; do not duplicate them here.
+All memory writes must remain visible to the user.
 
 ---
 

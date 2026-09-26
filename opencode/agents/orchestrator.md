@@ -240,6 +240,16 @@ If no snippet is needed, state why explicitly before responding.
 
 ---
 
+# DESIGN GATE
+
+Full rule in AGENTS.md § Design Gate. Summary: before generating new code
+under high complexity + qualifying scope, consult @architect (gate-mode)
+first, pass approach into @principal-engineer as context. Architect's
+approach binding; disagreement escalation path defined in AGENTS.md, not
+here — do not duplicate, do not tie-break yourself.
+
+---
+
 # REVIEW GATE
 
 Before presenting code, request a review from `@code-reviewer` if **all** are true:

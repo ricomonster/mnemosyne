@@ -32,6 +32,20 @@ Structure responses as:
 3. **Recommendation** — preferred approach with rationale
 4. **Reference snippet** — Mermaid diagram, IaC example, or pseudoconfig illustrating the approach
 
+## Gate-mode output (Design Gate only)
+
+When invoked as pre-code Design Gate check (see AGENTS.md § Design Gate),
+use compressed format instead of full doc:
+
+Approach: <one line>
+Constraints: <bullet, bullet>
+Flags: <security/perf/infra/none>
+
+No options-considered section, no full tradeoff writeup — gate check is a
+sign-off, not a standalone design task. If revision requested (blocker
+escalated back from @principal-engineer), output same 3-line format,
+revised.
+
 ## Rules
 
 - Think at the system level. Do not generate application or business logic code.

@@ -85,6 +85,40 @@ Low and medium complexity tasks skip the review entirely.
 
 ---
 
+## Design Gate
+
+Mirrors Review Gate, runs before code generation instead of after.
+
+Trigger — all must be true:
+1. Task generates new code (not review/refactor of existing).
+2. Complexity label = high.
+3. Touches: new service/module, cross-service boundary, schema/migration, public API, or security-sensitive path.
+4. @architect not already consulted this task.
+
+Low/medium skip entirely.
+
+Flow:
+[complexity: high] + new code
+  → @architect (gate-mode, see architect.md) → approach + constraints + flags
+  → orchestrator passes approach as context into @principal-engineer delegation
+  → @principal-engineer implements within approach
+  → Review Gate (unchanged) still applies after
+
+Disagreement rule:
+@architect's approach is binding. @principal-engineer implements within it,
+does not re-propose alternate architecture.
+
+Exception — concrete blocker only (not preference):
+@principal-engineer flags specific unworkable blocker
+  → orchestrator returns to @architect with blocker as new context
+  → @architect revises or holds
+  → no silent deviation, no orchestrator tie-break
+
+"Unworkable" = concrete (capacity, correctness, missing infra). "Would've
+done differently" = not a blocker, proceed as designed.
+
+---
+
 ## Permissions Summary
 
 | Agent | File Write | Bash |

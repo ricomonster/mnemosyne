@@ -38,7 +38,7 @@
   "agent": {
     "orchestrator": {
       "mode": "primary",
-      "model": "openai/gpt-6-sol",
+      "model": "opencode-go/deepseek-v4.1-flash",
       "reasoningEffort": "high",
       "textVerbosity": "low",
       "steps": 60,
@@ -98,7 +98,7 @@
     },
     "code-reviewer": {
       "mode": "subagent",
-      "model": "opencode-go/glm-5.3",
+      "model": "openai/gpt-6-sol",
       "reasoningEffort": "high",
       "steps": 20,
       "temperature": 0.1,

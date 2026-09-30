@@ -47,7 +47,7 @@
   "agent": {
     "orchestrator": {
       "mode": "primary",
-      "model": "opencode-go/deepseek-v4.1-flash",
+      "model": "opencode-go/glm-5.3-flash",
       "reasoningEffort": "high",
       // "textVerbosity": "low",
       "steps": 60,
@@ -126,7 +126,7 @@
     },
     "junior-engineer": {
       "mode": "subagent",
-      "model": "opencode-go/mimo-v2.6-flash",
+      "model": "opencode-go/deepseek-v4.1-flash",
       "steps": 30,
       "temperature": 0.1,
       "permission": {

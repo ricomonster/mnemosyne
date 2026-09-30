@@ -34,13 +34,22 @@
         "setCacheKey": false
       }
     },
+    "openai": {
+      "models": {
+        "gpt-6-luna": {
+          "options": {
+            "reasoningEffort": "xhigh"
+          }
+        }
+      }
+    }
   },
   "agent": {
     "orchestrator": {
       "mode": "primary",
-      "model": "openai/gpt-6-luna",
-      "reasoningEffort": "max",
-      "textVerbosity": "low",
+      "model": "opencode-go/deepseek-v4.1-flash",
+      "reasoningEffort": "high",
+      // "textVerbosity": "low",
       "steps": 60,
       "temperature": 0.2,
       "permission": {
@@ -61,7 +70,7 @@
     },
     "architect": {
       "mode": "subagent",
-      "model": "openai/gpt-6-astra",
+      "model": "openai/gpt-6-sol",
       "reasoningEffort": "high",
       "steps": 40,
       "temperature": 0.4,
@@ -98,7 +107,7 @@
     },
     "code-reviewer": {
       "mode": "subagent",
-      "model": "openai/gpt-6-sol",
+      "model": "openai/gpt-6-astra",
       "reasoningEffort": "high",
       "steps": 20,
       "temperature": 0.1,
@@ -117,7 +126,7 @@
     },
     "junior-engineer": {
       "mode": "subagent",
-      "model": "opencode-go/deepseek-v4.1-flash",
+      "model": "opencode-go/mimo-v2.6-flash",
       "steps": 30,
       "temperature": 0.1,
       "permission": {

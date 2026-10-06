@@ -1,12 +1,14 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "autoupdate": true,
-  "plugin": [
+
+  "update": "auto",
+
+  "plugins": [
     "cc-safety-net",
-    "envsitter-guard@latest",
     "@dietrichgebert/ponytail",
-    "./plugins/caveman/plugin.js",
+    "./plugins/caveman/plugin.js"
   ],
+
   "instructions": [
     "AGENTS.md",
     "agents/architect.md",
@@ -15,7 +17,53 @@
     "agents/principal-engineer.md",
     "agents/orchestrator.md"
   ],
+
   "default_agent": "orchestrator",
+
+  "experimental": {
+    "portable_shell_scanner": true,
+
+    "policies": [
+      {
+        "action": "permission",
+        "resource": "read:*.env",
+        "effect": "deny"
+      },
+      {
+        "action": "permission",
+        "resource": "read:*.env.*",
+        "effect": "deny"
+      },
+      {
+        "action": "permission",
+        "resource": "read:*.env.example",
+        "effect": "allow"
+      },
+
+      {
+        "action": "permission",
+        "resource": "edit:*.env",
+        "effect": "deny"
+      },
+      {
+        "action": "permission",
+        "resource": "edit:*.env.*",
+        "effect": "deny"
+      },
+      {
+        "action": "permission",
+        "resource": "edit:*.env.example",
+        "effect": "allow"
+      },
+
+      {
+        "action": "permission",
+        "resource": "shell:*.env*",
+        "effect": "deny"
+      }
+    ]
+  },
+
   "mcp": {
     "servers": {
       "mem0": {
@@ -28,135 +76,313 @@
       }
     }
   },
-  "provider": {
-    "opencode-go": {
-      "options": {
-        "setCacheKey": false
-      }
-    },
-    "openai": {
-      "models": {
-        "gpt-6-luna": {
-          "options": {
-            "reasoningEffort": "xhigh"
-          }
-        }
-      }
-    }
-  },
-  "agent": {
+
+  "agents": {
     "orchestrator": {
       "mode": "primary",
-      "model": "opencode-go/glm-5.3-flash",
-      "reasoningEffort": "high",
-      // "textVerbosity": "low",
+      "model": "opencode-go/deepseek-v4.1-flash#high",
       "steps": 60,
-      "temperature": 0.2,
-      "permission": {
-        "mem0_*": "allow",
-        "bash": {
-          "find *": "allow",
-          "ls *": "allow",
-          "wc *": "allow",
-          "*": "ask"
+
+      "permissions": [
+        {
+          "action": "mem0_*",
+          "resource": "*",
+          "effect": "allow"
         },
-        "file": {
-          "read": "allow",
-          "write": "deny"
+
+        {
+          "action": "shell",
+          "resource": "*",
+          "effect": "ask"
         },
-        "websearch": "allow",
-        "webfetch": "allow"
-      }
+        {
+          "action": "shell",
+          "resource": "find *",
+          "effect": "allow"
+        },
+        {
+          "action": "shell",
+          "resource": "ls *",
+          "effect": "allow"
+        },
+        {
+          "action": "shell",
+          "resource": "wc *",
+          "effect": "allow"
+        },
+
+        {
+          "action": "read",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "edit",
+          "resource": "*",
+          "effect": "deny"
+        },
+
+        {
+          "action": "websearch",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "webfetch",
+          "resource": "*",
+          "effect": "allow"
+        }
+      ]
     },
+
     "architect": {
       "mode": "subagent",
-      "model": "openai/gpt-6-sol",
-      "reasoningEffort": "high",
+      "model": "openai/gpt-6-sol#high",
       "steps": 40,
-      "temperature": 0.4,
-      "permission": {
-        "mem0_*": "deny",
-        "bash": {
-          "*": "ask"
+
+      "permissions": [
+        {
+          "action": "mem0_*",
+          "resource": "*",
+          "effect": "deny"
         },
-        "file": {
-          "read": "allow",
-          "write": "deny"
+
+        {
+          "action": "shell",
+          "resource": "*",
+          "effect": "ask"
         },
-        "websearch": "allow",
-        "webfetch": "allow"
-      }
+
+        {
+          "action": "read",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "edit",
+          "resource": "*",
+          "effect": "deny"
+        },
+
+        {
+          "action": "websearch",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "webfetch",
+          "resource": "*",
+          "effect": "allow"
+        }
+      ]
     },
+
     "principal-engineer": {
       "mode": "subagent",
-      "model": "opencode-go/kimi-k3",
+      "model": "opencode-go/kimi-k2.7-code",
       "steps": 60,
-      "temperature": 0.2,
-      "permission": {
-        "mem0_*": "deny",
-        "bash": {
-          "*lint*": "allow",
-          "*test*": "allow",
-          "*": "ask"
+
+      "permissions": [
+        {
+          "action": "mem0_*",
+          "resource": "*",
+          "effect": "deny"
         },
-        "file": {
-          "read": "allow",
-          "write": "deny"
+
+        {
+          "action": "shell",
+          "resource": "*",
+          "effect": "ask"
+        },
+        {
+          "action": "shell",
+          "resource": "*lint*",
+          "effect": "allow"
+        },
+        {
+          "action": "shell",
+          "resource": "*test*",
+          "effect": "allow"
+        },
+
+        {
+          "action": "read",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "edit",
+          "resource": "*",
+          "effect": "deny"
         }
-      }
+      ]
     },
+
     "code-reviewer": {
       "mode": "subagent",
-      "model": "openai/gpt-6-astra",
-      "reasoningEffort": "high",
+      "model": "openai/gpt-6-astra#high",
       "steps": 20,
-      "temperature": 0.1,
-      "permission": {
-        "mem0_*": "deny",
-        "bash": {
-          "*": "deny"
+
+      "permissions": [
+        {
+          "action": "mem0_*",
+          "resource": "*",
+          "effect": "deny"
         },
-        "file": {
-          "read": "allow",
-          "write": "deny"
+
+        {
+          "action": "shell",
+          "resource": "*",
+          "effect": "deny"
         },
-        "websearch": "deny",
-        "webfetch": "deny"
-      }
+
+        {
+          "action": "read",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "edit",
+          "resource": "*",
+          "effect": "deny"
+        },
+
+        {
+          "action": "websearch",
+          "resource": "*",
+          "effect": "deny"
+        },
+        {
+          "action": "webfetch",
+          "resource": "*",
+          "effect": "deny"
+        }
+      ]
     },
+
     "junior-engineer": {
       "mode": "subagent",
-      "model": "opencode-go/deepseek-v4.1-flash",
+      "model": "opencode-go/glm-5.3-flash",
       "steps": 30,
-      "temperature": 0.1,
-      "permission": {
-        "mem0_*": "deny",
-        "bash": {
-          "cat *": "allow",
-          "ls *": "allow",
-          "find *": "allow",
-          "grep *": "allow",
-          "rg *": "allow",
-          "fd *": "allow",
-          "head *": "allow",
-          "tail *": "allow",
-          "wc *": "allow",
-          "tree *": "allow",
-          "git log*": "allow",
-          "git diff*": "allow",
-          "git show*": "allow",
-          "git status*": "allow",
-          "npm list*": "allow",
-          "pip list*": "allow",
-          "*": "ask"
+
+      "permissions": [
+        {
+          "action": "mem0_*",
+          "resource": "*",
+          "effect": "deny"
         },
-        "file": {
-          "read": "allow",
-          "write": "deny"
+
+        {
+          "action": "shell",
+          "resource": "*",
+          "effect": "ask"
         },
-        "websearch": "deny",
-        "webfetch": "deny"
-      }
+
+        {
+          "action": "shell",
+          "resource": "cat *",
+          "effect": "allow"
+        },
+        {
+          "action": "shell",
+          "resource": "ls *",
+          "effect": "allow"
+        },
+        {
+          "action": "shell",
+          "resource": "find *",
+          "effect": "allow"
+        },
+        {
+          "action": "shell",
+          "resource": "grep *",
+          "effect": "allow"
+        },
+        {
+          "action": "shell",
+          "resource": "rg *",
+          "effect": "allow"
+        },
+        {
+          "action": "shell",
+          "resource": "fd *",
+          "effect": "allow"
+        },
+        {
+          "action": "shell",
+          "resource": "head *",
+          "effect": "allow"
+        },
+        {
+          "action": "shell",
+          "resource": "tail *",
+          "effect": "allow"
+        },
+        {
+          "action": "shell",
+          "resource": "wc *",
+          "effect": "allow"
+        },
+        {
+          "action": "shell",
+          "resource": "tree *",
+          "effect": "allow"
+        },
+
+        {
+          "action": "shell",
+          "resource": "git log *",
+          "effect": "allow"
+        },
+        {
+          "action": "shell",
+          "resource": "git diff *",
+          "effect": "allow"
+        },
+        {
+          "action": "shell",
+          "resource": "git show *",
+          "effect": "allow"
+        },
+        {
+          "action": "shell",
+          "resource": "git status *",
+          "effect": "allow"
+        },
+
+        {
+          "action": "shell",
+          "resource": "npm list *",
+          "effect": "allow"
+        },
+        {
+          "action": "shell",
+          "resource": "pip list *",
+          "effect": "allow"
+        },
+
+        {
+          "action": "read",
+          "resource": "*",
+          "effect": "allow"
+        },
+        {
+          "action": "edit",
+          "resource": "*",
+          "effect": "deny"
+        },
+
+        {
+          "action": "websearch",
+          "resource": "*",
+          "effect": "deny"
+        },
+        {
+          "action": "webfetch",
+          "resource": "*",
+          "effect": "deny"
+        }
+      ]
     }
   }
 }

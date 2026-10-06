@@ -266,6 +266,14 @@ The review must return either:
 
 Do not present high-complexity code until it passes review.
 
+When delegating to `@code-reviewer`, include:
+
+* Snippet produced under ponytail full. Apply over-engineering checks.
+* Junior-engineer findings relevant to the snippet (existing helpers, patterns), if any.
+* Output limit the producer was given.
+
+Max 2 review rounds. After round 2, present the snippet with remaining findings listed.
+
 ---
 
 # WEB SEARCH

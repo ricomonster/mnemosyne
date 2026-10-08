@@ -8,11 +8,23 @@ This project uses a **multi-agent orchestration setup** in OpenCode. The Orchest
 
 | Agent | Mode | Role |
 |---|---|---|
-| `orchestrator` | primary | Coordinates all agents, assesses complexity, delegates, and synthesizes |
-| `architect` | subagent | Infra, system design, IaC snippets, ADRs |
-| `principal-engineer` | subagent | Code snippets, review feedback, patterns, standards |
-| `code-reviewer` | subagent | Review-only: verdicts and findings on snippets from other agents |
-| `junior-engineer` | subagent | Scouting, codebase exploration, research |
+| `jarvis` | primary | Coordinates all agents, assesses complexity, delegates, and synthesizes |
+| `edith` | subagent | Infra, system design, IaC snippets, ADRs |
+| `friday` | subagent | Code snippets, review feedback, patterns, standards |
+| `veronica` | subagent | Review-only: verdicts and findings on snippets from other agents |
+| `dum-e` | subagent | Scouting, codebase exploration, research |
+
+### Codenames
+
+| ID | Role |
+|---|---|
+| `jarvis` | Orchestrator |
+| `edith` | Architect |
+| `friday` | Principal Engineer |
+| `veronica` | Code Reviewer |
+| `dum-e` | Junior Engineer |
+
+Prose uses role names. IDs and `@mentions` use codenames.
 
 ---
 
@@ -26,16 +38,16 @@ Build a new payments service that hooks into our existing auth system and deploy
 ```
 
 The Orchestrator will delegate:
-- System design → `@architect`
-- Snippet/review → `@principal-engineer`
-- Codebase research → `@junior-engineer`
+- System design → `@edith`
+- Snippet/review → `@friday`
+- Codebase research → `@dum-e`
 ### Direct @mention
 Skip the orchestrator and call a specialist directly:
 
 ```
-@architect design the VPC topology for a multi-AZ ECS deployment
-@principal-engineer review the UserService for repository pattern compliance
-@junior-engineer find all places where we call the payments API
+@edith design the VPC topology for a multi-AZ ECS deployment
+@friday review the UserService for repository pattern compliance
+@dum-e find all places where we call the payments API
 ```
 
 ---
@@ -70,13 +82,13 @@ For `[complexity: high]` tasks, the orchestrator routes output through a mandato
 
 1. The output contains a code snippet (any language)
 2. The snippet is more than 15 lines
-3. `@code-reviewer` was not the one who originally produced it
+3. `@veronica` was not the one who originally produced it
 4. The task was labeled `[complexity: high]`
 **Review flow:**
 ```
 [complexity: high] task
   → delegate to producing agent
-  → route to @code-reviewer for review
+  → route to @veronica for review
   → LGTM → present to user
   → CHANGES NEEDED → revise → re-submit → present
 ```
@@ -93,25 +105,25 @@ Trigger — all must be true:
 1. Task generates new code (not review/refactor of existing).
 2. Complexity label = high.
 3. Touches: new service/module, cross-service boundary, schema/migration, public API, or security-sensitive path.
-4. @architect not already consulted this task.
+4. @edith not already consulted this task.
 
 Low/medium skip entirely.
 
 Flow:
 [complexity: high] + new code
-  → @architect (gate-mode, see architect.md) → approach + constraints + flags
-  → orchestrator passes approach as context into @principal-engineer delegation
-  → @principal-engineer implements within approach
+  → @edith (gate-mode, see `edith`) → approach + constraints + flags
+  → orchestrator passes approach as context into @friday delegation
+  → @friday implements within approach
   → Review Gate (unchanged) still applies after
 
 Disagreement rule:
-@architect's approach is binding. @principal-engineer implements within it,
+@edith's approach is binding. @friday implements within it,
 does not re-propose alternate architecture.
 
 Exception — concrete blocker only (not preference):
-@principal-engineer flags specific unworkable blocker
-  → orchestrator returns to @architect with blocker as new context
-  → @architect revises or holds
+@friday flags specific unworkable blocker
+  → orchestrator returns to @edith with blocker as new context
+  → @edith revises or holds
   → no silent deviation, no orchestrator tie-break
 
 "Unworkable" = concrete (capacity, correctness, missing infra). "Would've
@@ -123,15 +135,15 @@ done differently" = not a blocker, proceed as designed.
 
 | Agent | File Write | Bash |
 |---|---|---|
-| `orchestrator` | deny | ask |
-| `architect` | deny | ask |
-| `principal-engineer` | deny | allow (lint/test), ask (others) |
-| `code-reviewer` | deny | deny |
-| `junior-engineer` | **deny** | allow (read-only cmds), ask (others) |
+| `jarvis` | deny | ask |
+| `edith` | deny | ask |
+| `friday` | deny | allow (lint/test), ask (others) |
+| `veronica` | deny | deny |
+| `dum-e` | **deny** | allow (read-only s), ask (others) |
 
 ### Tool access — memory (Mem0)
 
-Only `orchestrator` may hold Mem0 (`mem0_*`) tool grants. This is a **config-level** requirement, not just a prompt rule: if any subagent's tool permission list includes `mem0_*`, remove it there. A prompt instruction telling a subagent "don't touch memory" is not enforcement — an agent with the tool available can still be made to call it. Verify subagent tool grants directly against the OpenCode config, not against this doc.
+Only `jarvis` may hold Mem0 (`mem0_*`) tool grants. This is a **config-level** requirement, not just a prompt rule: if any subagent's tool permission list includes `mem0_*`, remove it there. A prompt instruction telling a subagent "don't touch memory" is not enforcement — an agent with the tool available can still be made to call it. Verify subagent tool grants directly against the OpenCode config, not against this doc.
 
 ---
 
@@ -184,15 +196,15 @@ For multi-step tasks, state a brief plan first:
 
 Communication style is controlled by the **user's preference settings** by default, not by this file or any agent prompt.
 
-One sanctioned exception: `orchestrator` carries a dedicated caveman tone mode, defined in lite and in the open in `orchestrator.md` (not hidden in a comment or buried mid-file). It's switchable at runtime (`/caveman lite|full|ultra|wenyan`, "stop caveman"), defaults to lite, and is scoped to `orchestrator` only — it is the one agent that talks to the user directly, so it's the only place a user-facing tone mode belongs. An explicit in-session `/caveman` command overrides the account-level tone preference for that agent only; it doesn't change the preference itself, and both can drift out of sync if the user forgets which one they set last — worth surfacing to the user if behavior looks off.
+One sanctioned exception: `jarvis` carries a dedicated caveman tone mode, defined in lite and in the open in `jarvis` (not hidden in a comment or buried mid-file). It's switchable at runtime (`/caveman lite|full|ultra|wenyan`, "stop caveman"), defaults to lite, and is scoped to `jarvis` only — it is the one agent that talks to the user directly, so it's the only place a user-facing tone mode belongs. An explicit in-session `/caveman` command overrides the account-level tone preference for that agent only; it doesn't change the preference itself, and both can drift out of sync if the user forgets which one they set last — worth surfacing to the user if behavior looks off.
 
-Subagents (`architect`, `principal-engineer`, `junior-engineer`) never get an independent tone override. `junior-engineer`'s compressed output format is a **functional exception**, not a tone one: it's deliberately adapted from the caveman skill's compression rules because scan-fast `path:line` output is the right shape for repo-exploration reports regardless of what tone mode is active elsewhere in the session. Don't read that as a second tone system — it's a report format.
+Subagents (`edith`, `friday`, `veronica`, `dum-e`) never get an independent tone override. `dum-e`'s compressed output format is a **functional exception**, not a tone one: it's deliberately adapted from the caveman skill's compression rules because scan-fast `path:line` output is the right shape for repo-exploration reports regardless of what tone mode is active elsewhere in the session. Don't read that as a second tone system — it's a report format.
 
 ## Memory — canonical section
 
-This is the single source of truth for memory rules. Do not restate this section elsewhere (e.g. in `orchestrator.md`) — reference it instead, to avoid drift between copies.
+This is the single source of truth for memory rules. Do not restate this section elsewhere (e.g. in `jarvis`) — reference it instead, to avoid drift between copies.
 
-- Persistent memory is owned exclusively by `orchestrator`.
+- Persistent memory is owned exclusively by `jarvis`.
 - Subagents must not search, retrieve, create, update, or delete persistent memories.
 - Subagents receive only relevant memory context through orchestrator delegation.
 - Memory is supporting context only. Repository state and current user input take precedence.

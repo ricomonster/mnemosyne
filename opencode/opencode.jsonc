@@ -11,14 +11,14 @@
 
   "instructions": [
     "AGENTS.md",
-    "agents/architect.md",
-    "agents/code-reviewer.md",
-    "agents/junior-engineer.md",
-    "agents/principal-engineer.md",
-    "agents/orchestrator.md"
+    "agents/dum-e.md",
+    "agents/edith.md",
+    "agents/friday.md",
+    "agents/jarvis.md",
+    "agents/veronica.md"
   ],
 
-  "default_agent": "orchestrator",
+  "default_agent": "jarvis",
 
   "experimental": {
     "portable_shell_scanner": true,
@@ -78,9 +78,10 @@
   },
 
   "agents": {
-    "orchestrator": {
+    "jarvis": {
       "mode": "primary",
-      "model": "opencode-go/deepseek-v4.1-flash#high",
+      // "model": "opencode-go/deepseek-v4.1-flash#high",
+      "model": "opencode-go/claude-haiku-5-5#high",
       "steps": 60,
 
       "permissions": [
@@ -135,7 +136,7 @@
       ]
     },
 
-    "architect": {
+    "edith": {
       "mode": "subagent",
       "model": "openai/gpt-6-sol#high",
       "steps": 40,
@@ -177,7 +178,7 @@
       ]
     },
 
-    "principal-engineer": {
+    "friday": {
       "mode": "subagent",
       "model": "opencode-go/kimi-k2.7-code",
       "steps": 60,
@@ -218,7 +219,7 @@
       ]
     },
 
-    "code-reviewer": {
+    "veronica": {
       "mode": "subagent",
       "model": "openai/gpt-6-astra#high",
       "steps": 20,
@@ -260,7 +261,7 @@
       ]
     },
 
-    "junior-engineer": {
+    "dum-e": {
       "mode": "subagent",
       "model": "opencode-go/glm-5.3-flash",
       "steps": 30,

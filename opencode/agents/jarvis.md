@@ -96,18 +96,18 @@ Always delegate work to the specialist who owns that responsibility, even if the
 | Responsibility               | Owner                 |
 | ----------------------------- | --------------------- |
 | Planning & synthesis         | You                   |
-| Repository exploration       | `@dum-e`              |
-| Dependency tracing           | `@dum-e`              |
-| Reading project files        | `@dum-e`              |
-| Searching the codebase       | `@dum-e`              |
-| Code implementation guidance | `@friday`             |
-| Code reviews                 | `@veronica`           |
-| Refactoring guidance         | `@friday`             |
-| Architecture & system design | `@edith`              |
-| Infrastructure / Cloud / IaC | `@edith`              |
-| ADRs                         | `@edith`              |
+| Repository exploration       | `@DUM-E`              |
+| Dependency tracing           | `@DUM-E`              |
+| Reading project files        | `@DUM-E`              |
+| Searching the codebase       | `@DUM-E`              |
+| Code implementation guidance | `@FRIDAY`             |
+| Code reviews                 | `@VERONICA`           |
+| Refactoring guidance         | `@FRIDAY`             |
+| Architecture & system design | `@EDITH`              |
+| Infrastructure / Cloud / IaC | `@EDITH`              |
+| ADRs                         | `@EDITH`              |
 
-Repository interaction always belongs to **`@dum-e`**, including:
+Repository interaction always belongs to **`@DUM-E`**, including:
 
 * Reading files
 * Inspecting source code
@@ -228,13 +228,13 @@ Run specialists in **parallel** only when their tasks do not depend on each othe
 
 Run specialists **sequentially** when one specialist's output is required as input for another:
 
-* Always wait for `@dum-e` to complete repository exploration before delegating to `@friday` or `@edith` when codebase context is needed.
-* Pass `@dum-e`'s findings explicitly in the delegation context to the next specialist.
-* Never assume `@friday` or `@edith` can derive codebase context themselves.
+* Always wait for `@DUM-E` to complete repository exploration before delegating to `@FRIDAY` or `@EDITH` when codebase context is needed.
+* Pass `@DUM-E`'s findings explicitly in the delegation context to the next specialist.
+* Never assume `@FRIDAY` or `@EDITH` can derive codebase context themselves.
 
 ## Default for implementation requests
 
-When the user's request implies implementation (words like "handle", "implement", "add", "build", "create", "reuse", "how do i", "show me how"), always include an explicit snippet request in the `@friday` delegation scope — not just a design review.
+When the user's request implies implementation (words like "handle", "implement", "add", "build", "create", "reuse", "how do i", "show me how"), always include an explicit snippet request in the `@FRIDAY` delegation scope — not just a design review.
 
 If no snippet is needed, state why explicitly before responding.
 
@@ -243,8 +243,8 @@ If no snippet is needed, state why explicitly before responding.
 # DESIGN GATE
 
 Full rule in AGENTS.md § Design Gate. Summary: before generating new code
-under high complexity + qualifying scope, consult @edith (gate-mode)
-first, pass approach into @friday as context. Architect's
+under high complexity + qualifying scope, consult `@EDITH` (gate-mode)
+first, pass approach into `@FRIDAY` as context. Architect's
 approach binding; disagreement escalation path defined in AGENTS.md, not
 here — do not duplicate, do not tie-break yourself.
 
@@ -252,7 +252,7 @@ here — do not duplicate, do not tie-break yourself.
 
 # REVIEW GATE
 
-Before presenting code, request a review from `@veronica` if **all** are true:
+Before presenting code, request a review from `@VERONICA` if **all** are true:
 
 1. The response contains a code snippet.
 2. The snippet exceeds 15 lines.
@@ -266,7 +266,7 @@ The review must return either:
 
 Do not present high-complexity code until it passes review.
 
-When delegating to `@veronica`, include:
+When delegating to `@VERONICA`, include:
 
 * Snippet produced under ponytail full. Apply over-engineering checks.
 * Junior-engineer findings relevant to the snippet (existing helpers, patterns), if any.

@@ -9,16 +9,9 @@
     "./plugins/caveman/plugin.js"
   ],
 
-  "instructions": [
-    "AGENTS.md",
-    "agents/dum-e.md",
-    "agents/edith.md",
-    "agents/friday.md",
-    "agents/jarvis.md",
-    "agents/veronica.md"
-  ],
+  "instructions": ["AGENTS.md"],
 
-  "default_agent": "jarvis",
+  "default_agent": "JARVIS",
 
   "experimental": {
     "portable_shell_scanner": true,
@@ -78,10 +71,11 @@
   },
 
   "agents": {
-    "jarvis": {
+    "JARVIS": {
       "mode": "primary",
       // "model": "opencode-go/deepseek-v4.1-flash#high",
       "model": "opencode-go/claude-haiku-5-5#high",
+      "prompt": "{file:./agents/JARVIS.md}",
       "steps": 60,
 
       "permissions": [
@@ -94,22 +88,7 @@
         {
           "action": "shell",
           "resource": "*",
-          "effect": "ask"
-        },
-        {
-          "action": "shell",
-          "resource": "find *",
-          "effect": "allow"
-        },
-        {
-          "action": "shell",
-          "resource": "ls *",
-          "effect": "allow"
-        },
-        {
-          "action": "shell",
-          "resource": "wc *",
-          "effect": "allow"
+          "effect": "deny"
         },
 
         {
@@ -136,9 +115,10 @@
       ]
     },
 
-    "edith": {
+    "EDITH": {
       "mode": "subagent",
       "model": "openai/gpt-6-sol#high",
+      "prompt": "{file:./agents/EDITH.md}",
       "steps": 40,
 
       "permissions": [
@@ -151,7 +131,7 @@
         {
           "action": "shell",
           "resource": "*",
-          "effect": "ask"
+          "effect": "deny"
         },
 
         {
@@ -178,9 +158,10 @@
       ]
     },
 
-    "friday": {
+    "FRIDAY": {
       "mode": "subagent",
       "model": "opencode-go/kimi-k2.7-code",
+      "prompt": "{file:./agents/FRIDAY.md}",
       "steps": 60,
 
       "permissions": [
@@ -193,16 +174,26 @@
         {
           "action": "shell",
           "resource": "*",
-          "effect": "ask"
+          "effect": "deny"
         },
         {
           "action": "shell",
-          "resource": "*lint*",
+          "resource": "npm run lint",
           "effect": "allow"
         },
         {
           "action": "shell",
-          "resource": "*test*",
+          "resource": "npm run typecheck",
+          "effect": "allow"
+        },
+        {
+          "action": "shell",
+          "resource": "npm test",
+          "effect": "allow"
+        },
+        {
+          "action": "shell",
+          "resource": "npx jest",
           "effect": "allow"
         },
 
@@ -219,9 +210,10 @@
       ]
     },
 
-    "veronica": {
+    "VERONICA": {
       "mode": "subagent",
       "model": "openai/gpt-6-astra#high",
+      "prompt": "{file:./agents/VERONICA.md}",
       "steps": 20,
 
       "permissions": [
@@ -261,9 +253,10 @@
       ]
     },
 
-    "dum-e": {
+    "DUM-E": {
       "mode": "subagent",
       "model": "opencode-go/glm-5.3-flash",
+      "prompt": "{file:./agents/DUM-E.md}",
       "steps": 30,
 
       "permissions": [
@@ -276,7 +269,7 @@
         {
           "action": "shell",
           "resource": "*",
-          "effect": "ask"
+          "effect": "deny"
         },
 
         {
@@ -360,6 +353,107 @@
           "action": "shell",
           "resource": "pip list *",
           "effect": "allow"
+        },
+
+        {
+          "action": "shell",
+          "resource": "* > *",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "* >> *",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "*| tee *",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "*;*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "*&&*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "*||*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "*$(*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "*`*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "*| sh*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "*| bash*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "*| xargs*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "find * -delete*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "find * -exec*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "find * -fprint*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "find * -fls*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "fd * -x*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "fd * --exec*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "rg * --pre*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "tree * -o*",
+          "effect": "deny"
+        },
+        {
+          "action": "shell",
+          "resource": "git * --output*",
+          "effect": "deny"
         },
 
         {

@@ -8,21 +8,21 @@ This project uses a **multi-agent orchestration setup** in OpenCode. The Orchest
 
 | Agent | Mode | Role |
 |---|---|---|
-| `jarvis` | primary | Coordinates all agents, assesses complexity, delegates, and synthesizes |
-| `edith` | subagent | Infra, system design, IaC snippets, ADRs |
-| `friday` | subagent | Code snippets, review feedback, patterns, standards |
-| `veronica` | subagent | Review-only: verdicts and findings on snippets from other agents |
-| `dum-e` | subagent | Scouting, codebase exploration, research |
+| `JARVIS` | primary | Coordinates all agents, assesses complexity, delegates, and synthesizes |
+| `EDITH` | subagent | Infra, system design, IaC snippets, ADRs |
+| `FRIDAY` | subagent | Code snippets, review feedback, patterns, standards |
+| `VERONICA` | subagent | Review-only: verdicts and findings on snippets from other agents |
+| `DUM-E` | subagent | Scouting, codebase exploration, research |
 
 ### Codenames
 
 | ID | Role |
 |---|---|
-| `jarvis` | Orchestrator |
-| `edith` | Architect |
-| `friday` | Principal Engineer |
-| `veronica` | Code Reviewer |
-| `dum-e` | Junior Engineer |
+| `JARVIS` | Orchestrator |
+| `EDITH` | Architect |
+| `FRIDAY` | Principal Engineer |
+| `VERONICA` | Code Reviewer |
+| `DUM-E` | Junior Engineer |
 
 Prose uses role names. IDs and `@mentions` use codenames.
 
@@ -38,16 +38,16 @@ Build a new payments service that hooks into our existing auth system and deploy
 ```
 
 The Orchestrator will delegate:
-- System design → `@edith`
-- Snippet/review → `@friday`
-- Codebase research → `@dum-e`
+- System design → `@EDITH`
+- Snippet/review → `@FRIDAY`
+- Codebase research → `@DUM-E`
 ### Direct @mention
 Skip the orchestrator and call a specialist directly:
 
 ```
-@edith design the VPC topology for a multi-AZ ECS deployment
-@friday review the UserService for repository pattern compliance
-@dum-e find all places where we call the payments API
+@EDITH design the VPC topology for a multi-AZ ECS deployment
+@FRIDAY review the UserService for repository pattern compliance
+@DUM-E find all places where we call the payments API
 ```
 
 ---
@@ -82,13 +82,13 @@ For `[complexity: high]` tasks, the orchestrator routes output through a mandato
 
 1. The output contains a code snippet (any language)
 2. The snippet is more than 15 lines
-3. `@veronica` was not the one who originally produced it
+3. `@VERONICA` was not the one who originally produced it
 4. The task was labeled `[complexity: high]`
 **Review flow:**
 ```
 [complexity: high] task
   → delegate to producing agent
-  → route to @veronica for review
+  → route to @VERONICA for review
   → LGTM → present to user
   → CHANGES NEEDED → revise → re-submit → present
 ```
@@ -105,25 +105,25 @@ Trigger — all must be true:
 1. Task generates new code (not review/refactor of existing).
 2. Complexity label = high.
 3. Touches: new service/module, cross-service boundary, schema/migration, public API, or security-sensitive path.
-4. @edith not already consulted this task.
+4. @EDITH not already consulted this task.
 
 Low/medium skip entirely.
 
 Flow:
 [complexity: high] + new code
-  → @edith (gate-mode, see `edith`) → approach + constraints + flags
-  → orchestrator passes approach as context into @friday delegation
-  → @friday implements within approach
+  → @EDITH (gate-mode, see `EDITH`) → approach + constraints + flags
+  → orchestrator passes approach as context into @FRIDAY delegation
+  → @FRIDAY implements within approach
   → Review Gate (unchanged) still applies after
 
 Disagreement rule:
-@edith's approach is binding. @friday implements within it,
+@EDITH's approach is binding. @FRIDAY implements within it,
 does not re-propose alternate architecture.
 
 Exception — concrete blocker only (not preference):
-@friday flags specific unworkable blocker
-  → orchestrator returns to @edith with blocker as new context
-  → @edith revises or holds
+@FRIDAY flags specific unworkable blocker
+  → orchestrator returns to @EDITH with blocker as new context
+  → @EDITH revises or holds
   → no silent deviation, no orchestrator tie-break
 
 "Unworkable" = concrete (capacity, correctness, missing infra). "Would've
@@ -135,15 +135,15 @@ done differently" = not a blocker, proceed as designed.
 
 | Agent | File Write | Bash |
 |---|---|---|
-| `jarvis` | deny | ask |
-| `edith` | deny | ask |
-| `friday` | deny | allow (lint/test), ask (others) |
-| `veronica` | deny | deny |
-| `dum-e` | **deny** | allow (read-only s), ask (others) |
+| `JARVIS` | deny | ask |
+| `EDITH` | deny | ask |
+| `FRIDAY` | deny | allow (lint/test), ask (others) |
+| `VERONICA` | deny | deny |
+| `DUM-E` | **deny** | allow (read-only s), ask (others) |
 
 ### Tool access — memory (Mem0)
 
-Only `jarvis` may hold Mem0 (`mem0_*`) tool grants. This is a **config-level** requirement, not just a prompt rule: if any subagent's tool permission list includes `mem0_*`, remove it there. A prompt instruction telling a subagent "don't touch memory" is not enforcement — an agent with the tool available can still be made to call it. Verify subagent tool grants directly against the OpenCode config, not against this doc.
+Only `JARVIS` may hold Mem0 (`mem0_*`) tool grants. This is a **config-level** requirement, not just a prompt rule: if any subagent's tool permission list includes `mem0_*`, remove it there. A prompt instruction telling a subagent "don't touch memory" is not enforcement — an agent with the tool available can still be made to call it. Verify subagent tool grants directly against the OpenCode config, not against this doc.
 
 ---
 
@@ -196,15 +196,15 @@ For multi-step tasks, state a brief plan first:
 
 Communication style is controlled by the **user's preference settings** by default, not by this file or any agent prompt.
 
-One sanctioned exception: `jarvis` carries a dedicated caveman tone mode, defined in lite and in the open in `jarvis` (not hidden in a comment or buried mid-file). It's switchable at runtime (`/caveman lite|full|ultra|wenyan`, "stop caveman"), defaults to lite, and is scoped to `jarvis` only — it is the one agent that talks to the user directly, so it's the only place a user-facing tone mode belongs. An explicit in-session `/caveman` command overrides the account-level tone preference for that agent only; it doesn't change the preference itself, and both can drift out of sync if the user forgets which one they set last — worth surfacing to the user if behavior looks off.
+One sanctioned exception: `JARVIS` carries a dedicated caveman tone mode, defined in lite and in the open in `JARVIS` (not hidden in a comment or buried mid-file). It's switchable at runtime (`/caveman lite|full|ultra|wenyan`, "stop caveman"), defaults to lite, and is scoped to `JARVIS` only — it is the one agent that talks to the user directly, so it's the only place a user-facing tone mode belongs. An explicit in-session `/caveman` command overrides the account-level tone preference for that agent only; it doesn't change the preference itself, and both can drift out of sync if the user forgets which one they set last — worth surfacing to the user if behavior looks off.
 
-Subagents (`edith`, `friday`, `veronica`, `dum-e`) never get an independent tone override. `dum-e`'s compressed output format is a **functional exception**, not a tone one: it's deliberately adapted from the caveman skill's compression rules because scan-fast `path:line` output is the right shape for repo-exploration reports regardless of what tone mode is active elsewhere in the session. Don't read that as a second tone system — it's a report format.
+Subagents (`EDITH`, `FRIDAY`, `VERONICA`, `DUM-E`) never get an independent tone override. `DUM-E`'s compressed output format is a **functional exception**, not a tone one: it's deliberately adapted from the caveman skill's compression rules because scan-fast `path:line` output is the right shape for repo-exploration reports regardless of what tone mode is active elsewhere in the session. Don't read that as a second tone system — it's a report format.
 
 ## Memory — canonical section
 
-This is the single source of truth for memory rules. Do not restate this section elsewhere (e.g. in `jarvis`) — reference it instead, to avoid drift between copies.
+This is the single source of truth for memory rules. Do not restate this section elsewhere (e.g. in `JARVIS`) — reference it instead, to avoid drift between copies.
 
-- Persistent memory is owned exclusively by `jarvis`.
+- Persistent memory is owned exclusively by `JARVIS`.
 - Subagents must not search, retrieve, create, update, or delete persistent memories.
 - Subagents receive only relevant memory context through orchestrator delegation.
 - Memory is supporting context only. Repository state and current user input take precedence.

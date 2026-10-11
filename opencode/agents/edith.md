@@ -43,7 +43,7 @@ Flags: <security/perf/infra/none>
 
 No options-considered section, no full tradeoff writeup — gate check is a
 sign-off, not a standalone design task. If revision requested (blocker
-escalated back from `@friday`), output same 3-line format,
+escalated back from `@FRIDAY`), output same 3-line format,
 revised.
 
 ## Rules

@@ -3,11 +3,7 @@
 
   "update": "auto",
 
-  "plugins": [
-    "cc-safety-net",
-    "@dietrichgebert/ponytail",
-    "./plugins/caveman/plugin.js"
-  ],
+  "plugins": ["cc-safety-net", "@dietrichgebert/ponytail"],
 
   "instructions": ["AGENTS.md"],
 
@@ -73,11 +69,17 @@
   "agents": {
     "JARVIS": {
       "mode": "primary",
-      "model": "opencode-go/gemini-4-argon-contributor#medium",
+      "model": "opencode-go/glm-5.3-flash#high",
       "prompt": "{file:./agents/JARVIS.md}",
       "steps": 60,
 
       "permissions": [
+        {
+          "action": "skill",
+          "resource": "i-have-adhd",
+          "effect": "allow"
+        },
+
         {
           "action": "mem0_*",
           "resource": "*",
@@ -95,6 +97,7 @@
           "resource": "*",
           "effect": "allow"
         },
+
         {
           "action": "edit",
           "resource": "*",
@@ -106,6 +109,7 @@
           "resource": "*",
           "effect": "allow"
         },
+
         {
           "action": "webfetch",
           "resource": "*",

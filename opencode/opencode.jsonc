@@ -69,7 +69,7 @@
   "agents": {
     "JARVIS": {
       "mode": "primary",
-      "model": "opencode-go/glm-5.3-flash#high",
+      "model": "openai/gpt-6-sol#medium",
       "prompt": "{file:./agents/JARVIS.md}",
       "steps": 60,
 
@@ -120,7 +120,7 @@
 
     "EDITH": {
       "mode": "subagent",
-      "model": "openai/gpt-6-sol#high",
+      "model": "opencode-go/glm-5.3#high",
       "prompt": "{file:./agents/EDITH.md}",
       "steps": 40,
 
@@ -258,7 +258,7 @@
 
     "DUM-E": {
       "mode": "subagent",
-      "model": "opencode-go/glm-5.3-flash",
+      "model": "opencode-go/deepseek-v4.1-flash",
       "prompt": "{file:./agents/DUM-E.md}",
       "steps": 30,
 

@@ -213,10 +213,10 @@
       ]
     },
 
-    "VERONICA": {
+    "KAREN": {
       "mode": "subagent",
       "model": "claude-agent/opus#xhigh",
-      "prompt": "{file:./agents/VERONICA.md}",
+      "prompt": "{file:./agents/KAREN.md}",
       "steps": 20,
 
       "permissions": [

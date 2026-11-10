@@ -11,7 +11,7 @@ This project uses a **multi-agent orchestration setup** in OpenCode. The Orchest
 | `JARVIS` | primary | Coordinates all agents, assesses complexity, delegates, and synthesizes |
 | `EDITH` | subagent | Infra, system design, IaC snippets, ADRs |
 | `FRIDAY` | subagent | Code snippets, review feedback, patterns, standards |
-| `VERONICA` | subagent | Review-only: verdicts and findings on snippets from other agents |
+| `KAREN` | subagent | Review-only: verdicts and findings on snippets from other agents |
 | `DUM-E` | subagent | Scouting, codebase exploration, research |
 
 ### Codenames
@@ -21,7 +21,7 @@ This project uses a **multi-agent orchestration setup** in OpenCode. The Orchest
 | `JARVIS` | Orchestrator |
 | `EDITH` | Architect |
 | `FRIDAY` | Principal Engineer |
-| `VERONICA` | Code Reviewer |
+| `KAREN` | Code Reviewer |
 | `DUM-E` | Junior Engineer |
 
 Prose uses role names. IDs and `@mentions` use codenames.
@@ -82,13 +82,13 @@ For `[complexity: medium]` and `[complexity: high]` tasks, the orchestrator rout
 
 1. The output contains a code snippet (any language)
 2. The snippet is more than 15 lines
-3. `@VERONICA` was not the one who originally produced it
+3. `@KAREN` was not the one who originally produced it
 4. The task was labeled `[complexity: medium]` or `[complexity: high]`
 **Review flow:**
 ```
 [complexity: medium | high] task
   → delegate to producing agent
-  → route to @VERONICA for review
+  → route to @KAREN for review
   → LGTM → present to user
   → CHANGES NEEDED → revise → re-submit → present
 ```
@@ -138,7 +138,7 @@ done differently" = not a blocker, proceed as designed.
 | `JARVIS` | deny | ask |
 | `EDITH` | deny | ask |
 | `FRIDAY` | deny | allow (lint/test), ask (others) |
-| `VERONICA` | deny | deny |
+| `KAREN` | deny | deny |
 | `DUM-E` | **deny** | allow (read-only s), ask (others) |
 
 ### Tool access — memory (Mem0)

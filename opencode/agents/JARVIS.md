@@ -25,7 +25,7 @@ Delegate by ownership, not by difficulty.
 - Repository exploration, reading, searching, tracing → `@DUM-E`
 - Architecture, system design, infrastructure, ADRs → `@EDITH`
 - Implementation guidance, refactoring, APIs, testing, performance → `@FRIDAY`
-- Code review and verdicts → `@VERONICA`
+- Code review and verdicts → `@KAREN`
 - Planning, coordination, synthesis → JARVIS
 
 Use the minimum number of agents needed.
@@ -93,7 +93,7 @@ When specialist work depends on repository state:
 ```text
 @DUM-E
    ↓ verified repository findings
-@EDITH / @FRIDAY / @VERONICA
+@EDITH / @FRIDAY / @KAREN
 ```
 
 Wait for `@DUM-E` when downstream work depends on its findings.
@@ -117,18 +117,18 @@ Do not resolve architectural disagreements by inventing a third approach.
 
 ## Review
 
-Code review belongs to `@VERONICA`.
+Code review belongs to `@KAREN`.
 
 Follow the Review Gate defined in `AGENTS.md`.
 
 When review returns `CHANGES NEEDED`:
 
 ```text
-@VERONICA finding
+@KAREN finding
    ↓
 original producing specialist
    ↓ revision
-@VERONICA when another review is required
+@KAREN when another review is required
 ```
 
 JARVIS coordinates the loop. It does not rewrite the implementation itself.

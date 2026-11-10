@@ -78,22 +78,22 @@ The label is stated out loud before delegation so it's visible in the session.
 
 ## Review Gate
 
-For `[complexity: high]` tasks, the orchestrator routes output through a mandatory review pass before presenting to the user. The gate triggers only when **all** of the following are true:
+For `[complexity: medium]` and `[complexity: high]` tasks, the orchestrator routes output through a mandatory review pass before presenting to the user. The gate triggers only when **all** of the following are true:
 
 1. The output contains a code snippet (any language)
 2. The snippet is more than 15 lines
 3. `@VERONICA` was not the one who originally produced it
-4. The task was labeled `[complexity: high]`
+4. The task was labeled `[complexity: medium]` or `[complexity: high]`
 **Review flow:**
 ```
-[complexity: high] task
+[complexity: medium | high] task
   → delegate to producing agent
   → route to @VERONICA for review
   → LGTM → present to user
   → CHANGES NEEDED → revise → re-submit → present
 ```
 
-Low and medium complexity tasks skip the review entirely.
+Low complexity tasks skip the review entirely.
 
 ---
 

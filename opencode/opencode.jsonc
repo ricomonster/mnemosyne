@@ -69,7 +69,7 @@
   "agents": {
     "JARVIS": {
       "mode": "primary",
-      "model": "openai/gpt-6-sol#medium",
+      "model": "claude-agent/sonnet#high",
       "prompt": "{file:./agents/JARVIS.md}",
       "steps": 60,
 
@@ -120,7 +120,7 @@
 
     "EDITH": {
       "mode": "subagent",
-      "model": "opencode-go/glm-5.3#high",
+      "model": "openai/gpt-6-astra#high",
       "prompt": "{file:./agents/EDITH.md}",
       "steps": 40,
 
@@ -215,7 +215,7 @@
 
     "VERONICA": {
       "mode": "subagent",
-      "model": "openai/gpt-6-astra#high",
+      "model": "claude-agent/opus#xhigh",
       "prompt": "{file:./agents/VERONICA.md}",
       "steps": 20,
 
